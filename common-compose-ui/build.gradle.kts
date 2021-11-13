@@ -6,7 +6,7 @@ plugins {
   id("com.android.library")
 }
 
-group = "me.seiko.common.compose"
+group = "me.seiko.chat.common.compose.ui"
 version = "1.0"
 
 kotlin {

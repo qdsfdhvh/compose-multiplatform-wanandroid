@@ -14,7 +14,7 @@ plugins {
   id("com.diffplug.spotless").version(Versions.spotless)
 }
 
-group = "me.seiko.compose"
+group = "me.seiko.chat"
 version = "1.0"
 
 allprojects {

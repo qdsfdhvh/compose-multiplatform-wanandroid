@@ -6,7 +6,7 @@ pluginManagement {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
   }
 }
-rootProject.name = "compose-twiderex"
+rootProject.name = "compose-chat"
 
 include(":android")
 include(":desktop")

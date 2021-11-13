@@ -3,7 +3,7 @@ plugins {
   id("com.android.library")
 }
 
-group = "me.seiko.compose"
+group = "me.seiko.chat"
 version = "1.0"
 
 kotlin {

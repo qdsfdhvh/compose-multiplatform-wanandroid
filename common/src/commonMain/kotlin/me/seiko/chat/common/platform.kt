@@ -1,3 +1,3 @@
-package me.seiko.compose.common
+package me.seiko.chat.common
 
 expect fun getPlatformName(): String
