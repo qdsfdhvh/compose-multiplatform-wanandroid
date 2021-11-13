@@ -14,12 +14,13 @@ kotlin {
     compilations.all {
       kotlinOptions.jvmTarget = "11"
     }
-    withJava()
+//    withJava()
   }
   sourceSets {
     val jvmMain by getting {
       dependencies {
         implementation(project(":common"))
+        implementation(project(":common-compose-ui"))
         implementation(compose.desktop.currentOs)
       }
     }

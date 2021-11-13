@@ -1,9 +1,12 @@
+import org.jetbrains.compose.compose
+
 plugins {
   kotlin("multiplatform")
+  id("org.jetbrains.compose") version "1.0.0-alpha3"
   id("com.android.library")
 }
 
-group = "me.seiko.compose"
+group = "me.seiko.common.compose"
 version = "1.0"
 
 kotlin {
@@ -14,24 +17,20 @@ kotlin {
     }
   }
   sourceSets {
-    val commonMain by getting
-    val commonTest by getting {
+    val commonMain by getting {
       dependencies {
-        implementation(kotlin("test"))
+        implementation(project(":common"))
+        api(compose.runtime)
+        api(compose.foundation)
+        api(compose.material)
       }
     }
-    val androidMain by getting {
+    val androidMain by getting
+    val desktopMain by getting {
       dependencies {
-        api("androidx.appcompat:appcompat:1.3.1")
-        api("androidx.core:core-ktx:1.7.0")
+        api(compose.preview)
       }
     }
-    val androidTest by getting {
-      dependencies {
-        implementation("junit:junit:4.13.2")
-      }
-    }
-    val desktopMain by getting
     val desktopTest by getting
   }
 }
