@@ -11,7 +11,7 @@ object Versions {
     const val jvmTarget = "11"
   }
 
-  const val agp = "7.0.2"
+  const val agp = "7.0.3"
   const val spotless = "5.17.0"
   const val ktLint = "0.42.1"
 
