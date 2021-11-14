@@ -13,7 +13,7 @@ kotlin {
   android()
   jvm("desktop") {
     compilations.all {
-      kotlinOptions.jvmTarget = "11"
+      kotlinOptions.jvmTarget = Versions.Java.jvmTarget
     }
   }
   sourceSets {
@@ -23,6 +23,7 @@ kotlin {
         api(compose.runtime)
         api(compose.foundation)
         api(compose.material)
+        api(compose.animation)
       }
     }
     val androidMain by getting

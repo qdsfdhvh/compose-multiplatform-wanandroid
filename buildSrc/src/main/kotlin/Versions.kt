@@ -4,6 +4,7 @@ object Versions {
 
   object Kotlin {
     const val lang = "1.5.31"
+    const val coroutines = "1.5.2"
   }
 
   object Java {
@@ -16,4 +17,5 @@ object Versions {
   const val ktLint = "0.42.1"
 
   const val compose = "1.0.0-beta6-dev455"
+  const val activity = "1.4.0"
 }

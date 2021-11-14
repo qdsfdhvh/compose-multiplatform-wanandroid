@@ -10,11 +10,16 @@ kotlin {
   android()
   jvm("desktop") {
     compilations.all {
-      kotlinOptions.jvmTarget = "11"
+      kotlinOptions.jvmTarget = Versions.Java.jvmTarget
     }
   }
   sourceSets {
-    val commonMain by getting
+    val commonMain by getting {
+      dependencies {
+        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.Kotlin.lang}")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Kotlin.coroutines}")
+      }
+    }
     val commonTest by getting {
       dependencies {
         implementation(kotlin("test"))
@@ -24,6 +29,9 @@ kotlin {
       dependencies {
         api("androidx.appcompat:appcompat:1.3.1")
         api("androidx.core:core-ktx:1.7.0")
+        api("androidx.arch.core:core-runtime:2.1.0")
+        api("androidx.activity:activity-ktx:${Versions.activity}")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.coroutines}")
       }
     }
     val androidTest by getting {
