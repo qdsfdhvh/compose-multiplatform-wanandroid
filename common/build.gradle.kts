@@ -16,8 +16,8 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-        api("org.jetbrains.kotlin:kotlin-stdlib:${Versions.Kotlin.lang}")
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.Kotlin.coroutines}")
+        api(Libs.Kotlin.stdlib)
+        api(Libs.Kotlin.coroutinesCore)
       }
     }
     val commonTest by getting {
@@ -27,11 +27,7 @@ kotlin {
     }
     val androidMain by getting {
       dependencies {
-        api("androidx.appcompat:appcompat:1.3.1")
-        api("androidx.core:core-ktx:1.7.0")
-        api("androidx.arch.core:core-runtime:2.1.0")
-        api("androidx.activity:activity-ktx:${Versions.activity}")
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Kotlin.coroutines}")
+        api(Libs.Kotlin.coroutinesAndroid)
       }
     }
     val androidTest by getting {

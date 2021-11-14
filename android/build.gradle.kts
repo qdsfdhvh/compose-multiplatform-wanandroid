@@ -10,7 +10,7 @@ version = "1.0"
 dependencies {
   implementation(project(":common"))
   implementation(project(":common-compose-ui"))
-  implementation("androidx.activity:activity-compose:${Versions.activity}")
+  implementation("androidx.core:core:1.7.0")
 }
 
 android {

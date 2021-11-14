@@ -26,7 +26,12 @@ kotlin {
         api(compose.animation)
       }
     }
-    val androidMain by getting
+    val androidMain by getting {
+      dependencies {
+        api("androidx.lifecycle:lifecycle-runtime:2.4.0")
+        api("androidx.savedstate:savedstate:1.1.0")
+      }
+    }
     val desktopMain by getting {
       dependencies {
         api(compose.preview)

@@ -17,5 +17,4 @@ object Versions {
   const val ktLint = "0.42.1"
 
   const val compose = "1.0.0-beta6-dev455"
-  const val activity = "1.4.0"
 }
