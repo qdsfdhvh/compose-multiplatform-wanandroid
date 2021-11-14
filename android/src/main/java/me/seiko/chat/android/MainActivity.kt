@@ -7,12 +7,12 @@ import androidx.compose.material.MaterialTheme
 import me.seiko.chat.common.compose.ui.App
 
 class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MaterialTheme {
-                App()
-            }
-        }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      MaterialTheme {
+        App()
+      }
     }
+  }
 }

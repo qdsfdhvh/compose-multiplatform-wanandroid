@@ -3,7 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
   kotlin("multiplatform")
-  id("org.jetbrains.compose") version "1.0.0-alpha3"
+  id("org.jetbrains.compose").version(Versions.compose)
 }
 
 group = "me.seiko.compose"
@@ -14,7 +14,7 @@ kotlin {
     compilations.all {
       kotlinOptions.jvmTarget = "11"
     }
-//    withJava()
+    withJava()
   }
   sourceSets {
     val jvmMain by getting {
