@@ -30,6 +30,7 @@ kotlin {
       dependencies {
         api("androidx.lifecycle:lifecycle-runtime:2.4.0")
         api("androidx.savedstate:savedstate:1.1.0")
+        api("io.coil-kt:coil-compose:1.4.0")
       }
     }
     val desktopMain by getting {
