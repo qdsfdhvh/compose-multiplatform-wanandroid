@@ -15,6 +15,7 @@ object Versions {
   const val agp = "7.0.3"
   const val spotless = "5.17.0"
   const val ktLint = "0.42.1"
+  const val generator = "0.17.2"
 
   const val composeJb = "1.0.0-beta6-dev464"
 }

@@ -1,6 +1,7 @@
 plugins {
   kotlin("multiplatform")
   id("com.android.library")
+  id("dev.icerock.mobile.multiplatform-resources") version Versions.generator
 }
 
 group = Package.group
@@ -18,6 +19,9 @@ kotlin {
       dependencies {
         api(Libs.Kotlin.stdlib)
         api(Libs.Kotlin.coroutinesCore)
+
+        // MultiPlatform Resource https://github.com/icerockdev/moko-resources
+        api("dev.icerock.moko:resources:${Versions.generator}")
       }
     }
     val commonTest by getting {
@@ -51,4 +55,8 @@ android {
     sourceCompatibility = Versions.Java.lang
     targetCompatibility = Versions.Java.lang
   }
+}
+
+multiplatformResources {
+  multiplatformResourcesPackage = Package.id
 }

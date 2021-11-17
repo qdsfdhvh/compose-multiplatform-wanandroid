@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resource>
+    <string name="scene_title_timeline">TimeLine</string>
+    <string name="scene_title_mention">Mention</string>
+    <string name="scene_title_search">Search</string>
+    <string name="scene_title_me">Me</string>
+</resource>
