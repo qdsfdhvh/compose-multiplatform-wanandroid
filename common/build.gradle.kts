@@ -22,6 +22,9 @@ kotlin {
 
         // MultiPlatform Resource https://github.com/icerockdev/moko-resources
         api("dev.icerock.moko:resources:${Versions.generator}")
+
+        // Log https://github.com/AAkira/Napier
+        api("io.github.aakira:napier:1.5.0")
       }
     }
     val commonTest by getting {
