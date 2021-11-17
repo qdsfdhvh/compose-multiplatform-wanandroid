@@ -6,8 +6,8 @@ plugins {
   id("org.jetbrains.compose").version(Versions.composeJb)
 }
 
-group = "me.seiko.compose"
-version = "1.0"
+group = Package.group
+version = Package.versionName
 
 kotlin {
   jvm {
@@ -33,8 +33,8 @@ compose.desktop {
     mainClass = "MainKt"
     nativeDistributions {
       targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-      packageName = "jvm"
-      packageVersion = "1.0.0"
+      packageName = Package.name
+      packageVersion = Package.versionName
     }
   }
 }

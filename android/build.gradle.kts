@@ -4,8 +4,8 @@ plugins {
   kotlin("android")
 }
 
-group = "me.seiko.compose"
-version = "1.0"
+group = Package.group
+version = Package.versionName
 
 dependencies {
   implementation(project(":common"))
@@ -19,8 +19,8 @@ android {
     applicationId = "me.seiko.compose.android"
     minSdk = AndroidSdk.minSdk
     targetSdk = AndroidSdk.targetSdk
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = Package.versionCode
+    versionName = Package.versionName
   }
   compileOptions {
     sourceCompatibility = Versions.Java.lang

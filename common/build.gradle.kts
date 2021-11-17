@@ -3,8 +3,8 @@ plugins {
   id("com.android.library")
 }
 
-group = "me.seiko.chat"
-version = "1.0"
+group = Package.group
+version = Package.versionName
 
 kotlin {
   android()
