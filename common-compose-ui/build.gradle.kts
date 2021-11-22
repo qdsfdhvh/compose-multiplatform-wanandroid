@@ -24,6 +24,7 @@ kotlin {
         api(compose.foundation)
         api(compose.animation)
         api(compose.material)
+        api(compose.materialIconsExtended)
         api("dev.chrisbanes.snapper:snapper:0.1.0")
       }
     }

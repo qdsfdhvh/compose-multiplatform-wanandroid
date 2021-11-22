@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Twidere X. If not, see <http://www.gnu.org/licenses/>.
  */
-package me.seiko.jetpack.navigation
+package me.seiko.jetpack.navigation2
 
 import kotlin.math.min
 
@@ -38,7 +38,7 @@ internal class RouteParser {
     var tail: Char = 0.toChar(),
     var rex: Regex? = null,
     var paramsKey: String? = null,
-    var route: Route? = null,
+    var scene: Scene? = null,
   ) : Comparable<Node> {
 
     // subroutes on the leaf node
@@ -50,7 +50,7 @@ internal class RouteParser {
       return label - other.label
     }
 
-    fun insertRoute(pattern: String, route: Route): Node {
+    fun insertRoute(pattern: String, scene: Scene): Node {
       var n = this
       var parent: Node
       var search = pattern
@@ -58,7 +58,7 @@ internal class RouteParser {
         // Handle key exhaustion
         if (search.isEmpty()) {
           // Insert or update the node's leaf handler
-          n.applyRoute(route)
+          n.applyRoute(scene)
           return n
         }
 
@@ -85,7 +85,7 @@ internal class RouteParser {
         n = n.getEdge(seg.nodeType, label, seg.tail, prefix) ?: run {
           val child = Node(label = label, tail = seg.tail, prefix = search)
           val hn = parent.addChild(child, search)
-          hn.applyRoute(route)
+          hn.applyRoute(scene)
           return hn
         }
 
@@ -120,14 +120,14 @@ internal class RouteParser {
         // If the new key is a subset, set the route on this node and finish.
         search = search.substring(commonPrefix)
         if (search.isEmpty()) {
-          child.applyRoute(route)
+          child.applyRoute(scene)
           return child
         }
 
         // Create a new edge for the node
         val subchild = Node(type = ntStatic, label = search[0], prefix = search)
         val hn = child.addChild(subchild, search)
-        hn.applyRoute(route)
+        hn.applyRoute(scene)
         return hn
       }
     }
@@ -191,7 +191,12 @@ internal class RouteParser {
 
             // add the param edge node
             searchStr = searchStr.substring(segStartIdx)
-            val nn = Node(type = segTyp, label = searchStr[0], tail = seg.tail, paramsKey = findParamKey(searchStr))
+            val nn = Node(
+              type = segTyp,
+              label = searchStr[0],
+              tail = seg.tail,
+              paramsKey = findParamKey(searchStr)
+            )
             hn = child.addChild(nn, searchStr)
           }
         }
@@ -248,14 +253,14 @@ internal class RouteParser {
       return null
     }
 
-    fun applyRoute(route: Route?) {
+    fun applyRoute(scene: Scene?) {
       val n = this
-      n.route = route
+      n.scene = scene
     }
 
     // Recursive edge traversal by checking all nodeTyp groups along the way.
     // It's like searching through a multi-dimensional radix trie.
-    fun findRoute(rctx: RouteMatch, path: String): Route? {
+    fun findScene(match: RouteMatch, path: String): Scene? {
       for (ntyp in 0 until NODE_SIZE) {
         val nds = children[ntyp] ?: continue
         var xn: Node? = null
@@ -280,7 +285,7 @@ internal class RouteParser {
               xn = nds[idx]
               if (xn.type != ntStatic) {
                 xn.paramsKey?.let {
-                  rctx.keys.add(it)
+                  match.keys.add(it)
                 }
               }
               // label for param nodes is the delimiter byte
@@ -306,27 +311,27 @@ internal class RouteParser {
               }
 
               // rctx.routeParams.Values = append(rctx.routeParams.Values, xsearch[:p])
-              val prevlen: Int = rctx.vars.size
-              rctx.value(xsearch.substring(0, p))
+              val prevlen: Int = match.vars.size
+              match.value(xsearch.substring(0, p))
               xsearch = xsearch.substring(p)
               if (xsearch.isEmpty()) {
                 if (xn.isLeaf) {
-                  val h = xn.route
+                  val h = xn.scene
                   if (h != null) {
-                    rctx.key()
+                    match.key()
                     return h
                   }
                 }
               }
 
               // recursively find the next node on this branch
-              val fin = xn.findRoute(rctx, xsearch)
+              val fin = xn.findScene(match, xsearch)
               if (fin != null) {
                 return fin
               }
 
               // not found on this branch, reset vars
-              rctx.truncate(prevlen)
+              match.truncate(prevlen)
               xsearch = path
               idx++
             }
@@ -335,7 +340,7 @@ internal class RouteParser {
             // catch-all nodes
             // rctx.routeParams.Values = append(rctx.routeParams.Values, search)
             if (xsearch.isNotEmpty()) {
-              rctx.value(xsearch)
+              match.value(xsearch)
             }
             xn = nds[0]
             xsearch = ""
@@ -348,17 +353,17 @@ internal class RouteParser {
         // did we returnType it yet?
         if (xsearch.isEmpty()) {
           if (xn.isLeaf) {
-            val h = xn.route
+            val h = xn.scene
             if (h != null) {
               // rctx.routeParams.Keys = append(rctx.routeParams.Keys, h.paramKeys...)
-              rctx.key()
+              match.key()
               return h
             }
           }
         }
 
         // recursively returnType the next node..
-        val fin = xn.findRoute(rctx, xsearch)
+        val fin = xn.findScene(match, xsearch)
         if (fin != null) {
           return fin
         }
@@ -368,7 +373,7 @@ internal class RouteParser {
           //          if len(rctx.routeParams.Values) > 0 {
           //            rctx.routeParams.Values = rctx.routeParams.Values[:len(rctx.routeParams.Values) - 1]
           //          }
-          rctx.pop()
+          match.pop()
         }
       }
       return null
@@ -399,7 +404,7 @@ internal class RouteParser {
     }
 
     val isLeaf: Boolean
-      get() = route != null
+      get() = scene != null
 
     // longestPrefix finds the filesize of the shared prefix of two strings
     fun longestPrefix(k1: String, k2: String): Int {
@@ -503,13 +508,14 @@ internal class RouteParser {
 
   private val root = Node()
 
-  private val staticPaths = linkedMapOf<String, Route>()
-  fun insert(pattern: String, route: Route) {
+  private val staticPaths = linkedMapOf<String, Scene>()
+
+  fun insert(pattern: String, scene: Scene) {
     var patternStr = pattern
     val baseCatchAll = baseCatchAll(patternStr)
     if (baseCatchAll.length > 1) {
       // Add route pattern: /static/?* => /static
-      insert(baseCatchAll, route)
+      insert(baseCatchAll, scene)
       val tail = patternStr.substring(baseCatchAll.length + 2)
       patternStr = "$baseCatchAll/$tail"
     }
@@ -517,9 +523,9 @@ internal class RouteParser {
       patternStr = "/*"
     }
     if (pathKeys(patternStr).isEmpty()) {
-      staticPaths[patternStr] = route
+      staticPaths[patternStr] = scene
     }
-    root.insertRoute(patternStr, route)
+    root.insertRoute(patternStr, scene)
   }
 
   private fun baseCatchAll(pattern: String): String {
@@ -529,8 +535,12 @@ internal class RouteParser {
     } else ""
   }
 
-  fun insert(route: Route) {
-    insert(route.route, route)
+  fun insert(scene: Scene) {
+    insert(scene.route, scene)
+  }
+
+  fun clear() {
+    staticPaths.clear()
   }
 
   fun find(path: String): RouteMatchResult? {
@@ -545,8 +555,8 @@ internal class RouteParser {
   private fun findInternal(path: String): RouteMatchResult? {
     // use radix tree
     val result = RouteMatch()
-    val route = root.findRoute(result, path) ?: return null
-    return RouteMatchResult(route, result.pathMap)
+    val route = root.findScene(result, path) ?: return null
+    return RouteMatchResult(route) // , result.pathMap)
   }
 
   companion object {
@@ -689,3 +699,44 @@ internal class RouteParser {
     private const val BASE_CATCH_ALL = "/?*"
   }
 }
+
+internal class RouteMatch {
+  var matches = false
+  var scene: Scene? = null
+  var vars = arrayListOf<String>()
+  var keys = arrayListOf<String>()
+
+  fun key() {
+    val size = min(keys.size, vars.size)
+    for (i in 0 until size) {
+      vars.removeFirst()
+    }
+  }
+
+  fun truncate(size: Int) {
+    var sizeInt = size
+    while (sizeInt < vars.size) {
+      vars.removeAt(sizeInt++)
+    }
+  }
+
+  fun value(value: String) {
+    vars.add(value)
+  }
+
+  fun pop() {
+    if (vars.isNotEmpty()) {
+      vars.removeLast()
+    }
+  }
+
+  fun found(scene: Scene): RouteMatch {
+    this.scene = scene
+    matches = true
+    return this
+  }
+}
+
+internal data class RouteMatchResult(
+  val scene: Scene,
+)
