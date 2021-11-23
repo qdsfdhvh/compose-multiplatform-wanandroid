@@ -12,15 +12,15 @@ import kotlinx.coroutines.launch
 
 class CommandBuffer : Navigator.Holder {
 
+  private val _currentBackStack: MutableSharedFlow<NavBackStackEntry?> =
+    MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+
+  override val currentBackStack: Flow<NavBackStackEntry?>
+    get() = _currentBackStack.asSharedFlow()
+
   private var navigator: Navigator? = null
 
   private val pendingCommands = mutableListOf<Array<out Command>>()
-
-  private val _currentBackStackEntryFlow: MutableSharedFlow<NavBackStackEntry?> =
-    MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-
-  override val currentBackStackEntryFlow: Flow<NavBackStackEntry?> =
-    _currentBackStackEntryFlow.asSharedFlow()
 
   private lateinit var scope: CoroutineScope
 
@@ -31,8 +31,8 @@ class CommandBuffer : Navigator.Holder {
 
     scope = MainScope()
     scope.launch {
-      navigator.backStack.collect {
-        _currentBackStackEntryFlow.tryEmit(it.lastOrNull())
+      navigator.backStacks.collect {
+        _currentBackStack.tryEmit(it.lastOrNull())
       }
     }
   }

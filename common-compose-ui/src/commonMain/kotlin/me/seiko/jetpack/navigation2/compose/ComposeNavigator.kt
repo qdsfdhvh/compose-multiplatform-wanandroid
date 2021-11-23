@@ -9,9 +9,9 @@ import me.seiko.jetpack.navigation2.Navigator
 
 class ComposeNavigator : Navigator {
 
-  private val _backStack = MutableStateFlow<List<NavBackStackEntry>>(emptyList())
+  private val _backStacks = MutableStateFlow<List<NavBackStackEntry>>(emptyList())
 
-  override val backStack: StateFlow<List<NavBackStackEntry>> = _backStack.asStateFlow()
+  override val backStacks: StateFlow<List<NavBackStackEntry>> = _backStacks.asStateFlow()
 
   override fun applyCommands(commands: Array<out Command>) {
     for (command in commands) {
@@ -29,18 +29,18 @@ class ComposeNavigator : Navigator {
   }
 
   private fun forward(command: Command.Forward) {
-    _backStack.value += command.entry
+    _backStacks.value = _backStacks.value + command.entry
   }
 
   private fun replace(command: Command.Replace) {
-    _backStack.value = _backStack.value - _backStack.value.last() + command.entry
+    _backStacks.value = _backStacks.value - _backStacks.value.last() + command.entry
   }
 
   private fun backTo(command: Command.BackTo) {
-    _backStack.value = _backStack.value.takeWhile { it.scene != command.entry?.scene }
+    _backStacks.value = _backStacks.value.takeWhile { it.scene != command.entry?.scene }
   }
 
   private fun back() {
-    _backStack.value = _backStack.value - _backStack.value.last()
+    _backStacks.value = _backStacks.value - _backStacks.value.last()
   }
 }

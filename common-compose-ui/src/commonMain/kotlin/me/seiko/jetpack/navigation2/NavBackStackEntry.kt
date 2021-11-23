@@ -51,9 +51,9 @@ private fun parseRawQuery(rawQuery: String): Map<String, List<String>> {
 
   for (rawParam in rawParams) {
     val array = rawParam.split('=')
-    if (array.size != 2
-      || array.firstOrNull().isNullOrEmpty()
-      || array.lastOrNull().isNullOrEmpty()
+    if (array.size != 2 ||
+      array.firstOrNull().isNullOrEmpty() ||
+      array.lastOrNull().isNullOrEmpty()
     ) continue
 
     val key = array.first()

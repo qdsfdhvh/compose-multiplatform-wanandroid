@@ -32,7 +32,7 @@ open class NavController {
 
   private var navBackStackEntryId = Long.MIN_VALUE
 
-  fun getNavigatorHolder(): Navigator.Holder = commandBuffer
+  internal fun getNavigatorHolder(): Navigator.Holder = commandBuffer
 
   private fun navigate(vararg commands: Command) {
     commandBuffer.executeCommands(commands)
@@ -90,5 +90,5 @@ fun rememberNavController(): NavController {
 
 @Composable
 fun NavController.collectBackStackEntryAsState(): State<NavBackStackEntry?> {
-  return getNavigatorHolder().currentBackStackEntryFlow.collectAsState(null)
+  return getNavigatorHolder().currentBackStack.collectAsState(null)
 }

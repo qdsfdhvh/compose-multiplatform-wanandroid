@@ -32,12 +32,12 @@ fun NavHost(
     navController.graph = graph
   }
 
-  val backStack by navigator.backStack.collectAsState()
+  val backStacks by navigator.backStacks.collectAsState()
 
-  val backStackEntry = backStack.lastOrNull()
-  if (backStackEntry != null) {
-    Crossfade(backStackEntry.id, modifier) {
-      (backStackEntry.scene as? ComposeScene)?.content(backStackEntry)
+  val backStack = backStacks.lastOrNull()
+  if (backStack != null && backStack.scene is ComposeScene) {
+    Crossfade(backStack.id, modifier) {
+      backStack.scene.content(backStack)
     }
   }
 }
