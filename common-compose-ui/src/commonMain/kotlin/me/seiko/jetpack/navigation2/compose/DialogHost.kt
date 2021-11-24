@@ -4,16 +4,31 @@ import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import me.seiko.jetpack.LocalLifecycleOwner
+import me.seiko.jetpack.LocalViewModelStoreOwner
 
 @Composable
 internal fun DialogHost(dialogNavigator: DialogNavigator) {
   dialogNavigator.backStacks.forEach { backStack ->
     if (backStack.scene is DialogScene) {
-      DialogBox {
-        backStack.scene.content(backStack)
+
+      DisposableEffect(Unit) {
+        backStack.onActive()
+        onDispose { backStack.onInActive() }
+      }
+
+      CompositionLocalProvider(
+        LocalViewModelStoreOwner provides backStack,
+        LocalLifecycleOwner provides backStack,
+      ) {
+        DialogBox {
+          backStack.scene.content(backStack)
+        }
       }
     }
   }

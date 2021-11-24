@@ -41,9 +41,14 @@ open class NavBackStackQueue : Navigator {
     backStacks.removeRange(index, backStacks.size)
   }
 
-  private fun back() {
-    backStacks.removeLast()
+  protected open fun back() {
+    backStacks.removeLast().onDestroy()
   }
 
   fun canBack() = backStacks.size > 1
+
+  internal fun onCleared() {
+    backStacks.forEach { it.onDestroy() }
+    backStacks.clear()
+  }
 }

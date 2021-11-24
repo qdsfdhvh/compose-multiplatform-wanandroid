@@ -1,6 +1,6 @@
 package me.seiko.jetpack.navigation2
 
-class NavOptions(
+data class NavOptions internal constructor(
   val singleTop: Boolean,
   val popUpToRoute: String,
   val popUpToInclusive: Boolean,

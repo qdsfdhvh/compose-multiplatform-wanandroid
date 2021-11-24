@@ -2,4 +2,8 @@ package me.seiko.jetpack.navigation2.compose
 
 import me.seiko.jetpack.navigation2.NavBackStackQueue
 
-class ComposeNavigator : NavBackStackQueue()
+class ComposeNavigator : NavBackStackQueue() {
+  override fun back() {
+    backStacks.removeLast()
+  }
+}

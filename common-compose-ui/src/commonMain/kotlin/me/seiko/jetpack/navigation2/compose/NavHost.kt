@@ -2,11 +2,13 @@ package me.seiko.jetpack.navigation2.compose
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import me.seiko.jetpack.LocalBackDispatcherOwner
 import me.seiko.jetpack.LocalLifecycleOwner
+import me.seiko.jetpack.LocalViewModelStoreOwner
 import me.seiko.jetpack.navigation2.NavController
 import me.seiko.jetpack.navigation2.NavGraphBuilder
 
@@ -20,11 +22,17 @@ fun NavHost(
   val lifecycleOwner = checkNotNull(LocalLifecycleOwner.current) {
     "NavHost requires a lifecycleOwner to be provided via LocalLifecycleOwner"
   }
-  navController.lifecycleOwner = lifecycleOwner
-
+  val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+    "NavHost requires a viewModelStoreOwner to be provided via LocalViewModelStoreOwner"
+  }
   val backDispatcherOwner = LocalBackDispatcherOwner.current
-  if (backDispatcherOwner != null) {
-    navController.backDispatcher = backDispatcherOwner.backDispatcher
+
+  LaunchedEffect(lifecycleOwner, viewModelStoreOwner, backDispatcherOwner) {
+    navController.lifecycleOwner = lifecycleOwner
+    navController.setViewModelStore(viewModelStoreOwner.viewModelStore)
+    if (backDispatcherOwner != null) {
+      navController.backDispatcher = backDispatcherOwner.backDispatcher
+    }
   }
 
   LaunchedEffect(initialRoute, builder) {
@@ -37,7 +45,18 @@ fun NavHost(
   val backStack = navigator.backStacks.lastOrNull()
   if (backStack != null && backStack.scene is ComposeScene) {
     Crossfade(backStack.id, modifier) {
-      backStack.scene.content(backStack)
+
+      DisposableEffect(Unit) {
+        backStack.onActive()
+        onDispose { backStack.onInActive() }
+      }
+
+      CompositionLocalProvider(
+        LocalViewModelStoreOwner provides backStack,
+        LocalLifecycleOwner provides backStack,
+      ) {
+        backStack.scene.content(backStack)
+      }
     }
   }
 

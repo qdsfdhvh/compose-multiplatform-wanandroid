@@ -1,15 +1,47 @@
 package me.seiko.jetpack.navigation2
 
+import me.seiko.jetpack.lifecycle.Lifecycle
+import me.seiko.jetpack.lifecycle.LifecycleOwner
+import me.seiko.jetpack.lifecycle.LifecycleRegistry
+import me.seiko.jetpack.viewmodel.ViewModelStore
+import me.seiko.jetpack.viewmodel.ViewModelStoreOwner
 import kotlin.reflect.KClass
 
 class NavBackStackEntry internal constructor(
   val id: Long,
   val scene: Scene,
   private val rawQuery: String,
+  private val viewModel: NavControllerViewModel,
   internal val navigatorName: KClass<out Navigator>, // TODO remove it ?
-) {
+) : ViewModelStoreOwner, LifecycleOwner {
 
   private val queryString by lazy { parseRawQuery(rawQuery) }
+
+  override val viewModelStore: ViewModelStore
+    get() = viewModel.get(id = id)
+
+  private val lifecycleRegistry by lazy {
+    LifecycleRegistry()
+  }
+
+  override val lifecycle: Lifecycle
+    get() = lifecycleRegistry
+
+  internal fun onActive() {
+    lifecycleRegistry.currentState = Lifecycle.State.Active
+  }
+
+  internal fun onInActive() {
+    lifecycleRegistry.currentState = Lifecycle.State.InActive
+  }
+
+  internal fun onDestroy() {
+    // 由于使用了多个Navigator，所以这里过滤下防止重复onDestroy
+    if (lifecycleRegistry.currentState === Lifecycle.State.Destroyed) return
+
+    lifecycleRegistry.currentState = Lifecycle.State.Destroyed
+    viewModelStore.clear()
+  }
 
   fun <T : Any> query(name: String, clazz: KClass<T>): T? {
     val value = queryString[name]?.firstOrNull() ?: return null

@@ -5,6 +5,7 @@ import me.seiko.jetpack.dispatcher.BackHandler
 import me.seiko.jetpack.lifecycle.Lifecycle
 import me.seiko.jetpack.lifecycle.LifecycleObserver
 import me.seiko.jetpack.lifecycle.LifecycleOwner
+import me.seiko.jetpack.viewmodel.ViewModelStore
 
 open class NavController : LifecycleObserver, BackHandler {
 
@@ -25,38 +26,39 @@ open class NavController : LifecycleObserver, BackHandler {
     }
     set(value) {
       _graph = value
-
-      // bind route
-      routeParser.clear()
-      for (node in value.nodes) {
-        routeParser.insert(node)
-      }
-
-      // initial
+      routeParser.setNodes(value.nodes)
       navigate(value.initialRoute)
     }
 
   var backDispatcher: BackDispatcher? = null
-    set(value) {
+    internal set(value) {
       field?.unregister(this)
       field = value
       value?.register(this)
     }
 
   var lifecycleOwner: LifecycleOwner? = null
-    set(owner) {
+    internal set(owner) {
       if (owner == field) return
       field?.lifecycle?.removeObserver(this)
       field = owner
       owner?.lifecycle?.addObserver(this)
     }
 
+  private var viewModel: NavControllerViewModel? = null
+
+  internal fun setViewModelStore(viewModelStore: ViewModelStore) {
+    if (viewModel != NavControllerViewModel.create(viewModelStore)) {
+      viewModel = NavControllerViewModel.create(viewModelStore)
+    }
+  }
+
   fun navigate(route: String, builder: (NavOptionsBuilder.() -> Unit)? = null) {
     val path = route.substringBefore('?')
     val rawQuery = route.substringAfter('?', "")
 
     val node = findNavDestination(path)
-    val entry = node.createEntry(rawQuery)
+    val entry = node.createEntry(rawQuery, viewModel!!)
 
     if (builder == null) {
       forward(entry)
@@ -106,6 +108,12 @@ open class NavController : LifecycleObserver, BackHandler {
   }
 
   override fun onStateChanged(state: Lifecycle.State) {
+    when (state) {
+      Lifecycle.State.Initialized -> Unit
+      Lifecycle.State.Active -> currentBackStack?.onActive()
+      Lifecycle.State.InActive -> currentBackStack?.onInActive()
+      Lifecycle.State.Destroyed -> backStackQueue.onCleared()
+    }
   }
 
   override fun handleBackPress(): Boolean {

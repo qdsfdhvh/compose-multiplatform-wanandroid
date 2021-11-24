@@ -5,7 +5,7 @@ class NavGraph internal constructor(
   val nodes: List<NavDestination>
 )
 
-class NavGraphBuilder(
+class NavGraphBuilder internal constructor(
   private val initialRoute: String,
   private val nodes: MutableList<NavDestination> = mutableListOf()
 ) {

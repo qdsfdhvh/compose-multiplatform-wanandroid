@@ -1,24 +1,15 @@
 package me.seiko.chat.common.compose.ui.scene.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import me.seiko.chat.common.compose.ui.dialog.CustomDialog
 import me.seiko.chat.common.compose.ui.model.HomeMenus
 import me.seiko.chat.common.compose.ui.scene.me.MeScene
 import me.seiko.chat.common.compose.ui.scene.mention.MentionScene
@@ -82,26 +73,6 @@ fun HomeBottomBar(
         icon = { Icon(item.icon, contentDescription = item.name) },
         onClick = { onItemClick(item) }
       )
-    }
-  }
-}
-
-@Composable
-fun CustomDialog() {
-  Box(
-    modifier = Modifier
-      .background(Color.Black.copy(alpha = 0.6f))
-      .fillMaxSize(),
-    contentAlignment = Alignment.Center
-  ) {
-    Surface(
-      modifier = Modifier.size(200.dp),
-      color = MaterialTheme.colors.background,
-      shape = MaterialTheme.shapes.medium
-    ) {
-      Box(Modifier.fillMaxSize(), Alignment.Center) {
-        Text("This is Dialog")
-      }
     }
   }
 }

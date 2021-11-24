@@ -538,12 +538,13 @@ internal class RouteParser {
     } else ""
   }
 
-  fun insert(item: SearchItem) {
-    insert(item.scene.route, item)
+  fun setNodes(items: Collection<SearchItem>) {
+    staticPaths.clear()
+    items.forEach { insertNode(it) }
   }
 
-  fun clear() {
-    staticPaths.clear()
+  fun insertNode(item: SearchItem) {
+    insert(item.scene.route, item)
   }
 
   fun find(path: String): RouteMatchResult? {
