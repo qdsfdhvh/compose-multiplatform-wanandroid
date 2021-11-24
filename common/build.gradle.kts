@@ -24,7 +24,7 @@ kotlin {
         api("dev.icerock.moko:resources:${Versions.generator}")
 
         // Log https://github.com/AAkira/Napier
-        api("io.github.aakira:napier:1.5.0")
+        api("io.github.aakira:napier:2.0.0")
       }
     }
     val commonTest by getting {
