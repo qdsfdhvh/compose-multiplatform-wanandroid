@@ -7,7 +7,7 @@ import me.seiko.jetpack.navigation2.Command
 import me.seiko.jetpack.navigation2.NavBackStackEntry
 import me.seiko.jetpack.navigation2.Navigator
 
-class ComposeNavigator : Navigator {
+class DialogNavigator : Navigator {
 
   private val _backStacks = MutableStateFlow<List<NavBackStackEntry>>(emptyList())
 
@@ -21,29 +21,17 @@ class ComposeNavigator : Navigator {
 
   private fun applyCommand(command: Command) {
     when (command) {
-      is Command.Forward -> forward(command)
-      is Command.Replace -> replace(command)
-      is Command.BackTo -> backTo(command)
-      Command.Back -> back()
+      is Command.Forward -> show(command)
+      Command.Back -> dismiss()
+      else -> Unit
     }
   }
 
-  private fun forward(command: Command.Forward) {
+  private fun show(command: Command.Forward) {
     _backStacks.value = _backStacks.value + command.entry
   }
 
-  private fun replace(command: Command.Replace) {
-    _backStacks.value = _backStacks.value - _backStacks.value.last() + command.entry
-  }
-
-  private fun backTo(command: Command.BackTo) {
-    var index = _backStacks.value.indexOfLast { it.scene == command.entry.scene }
-    if (index == -1) return
-    if (!command.inclusive) index += 1
-    _backStacks.value = _backStacks.value.take(index)
-  }
-
-  private fun back() {
+  internal fun dismiss() {
     _backStacks.value = _backStacks.value - _backStacks.value.last()
   }
 }

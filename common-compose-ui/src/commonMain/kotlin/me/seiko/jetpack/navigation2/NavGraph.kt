@@ -2,20 +2,20 @@ package me.seiko.jetpack.navigation2
 
 class NavGraph internal constructor(
   val initialRoute: String,
-  val scenes: List<Scene>
+  val nodes: List<NavDestination>
 )
 
 class NavGraphBuilder(
   private val initialRoute: String,
-  private val scenes: MutableList<Scene> = mutableListOf()
+  private val nodes: MutableList<NavDestination> = mutableListOf()
 ) {
 
-  fun scene(scene: Scene) {
-    scenes += scene
+  fun composable(node: NavDestination) {
+    nodes += node
   }
 
   fun build() = NavGraph(
     initialRoute = initialRoute,
-    scenes = scenes
+    nodes = nodes
   )
 }

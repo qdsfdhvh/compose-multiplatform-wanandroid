@@ -6,6 +6,7 @@ class NavBackStackEntry internal constructor(
   val id: Long,
   val scene: Scene,
   private val rawQuery: String,
+  internal val navigatorName: KClass<out Navigator>, // TODO remove it ?
 ) {
 
   private val queryString by lazy { parseRawQuery(rawQuery) }
@@ -42,7 +43,7 @@ private fun <T : Any> convertValue(clazz: KClass<T>, value: String): T {
   } as T
 }
 
-// aa=1&bb=2
+// aa=1&bb=2&aa=3 -> { aa: [1,3], bb: [2] }
 private fun parseRawQuery(rawQuery: String): Map<String, List<String>> {
   val map = mutableMapOf<String, MutableList<String>>()
 

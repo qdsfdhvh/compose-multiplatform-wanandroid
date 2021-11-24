@@ -2,12 +2,12 @@ package me.seiko.jetpack.navigation2.compose
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import me.seiko.jetpack.LocalBackDispatcherOwner
+import me.seiko.jetpack.LocalLifecycleOwner
 import me.seiko.jetpack.navigation2.NavController
 import me.seiko.jetpack.navigation2.NavGraphBuilder
 
@@ -18,13 +18,14 @@ fun NavHost(
   modifier: Modifier = Modifier,
   builder: NavGraphBuilder.() -> Unit = {},
 ) {
-  val navigator = remember { ComposeNavigator() }
+  val lifecycleOwner = checkNotNull(LocalLifecycleOwner.current) {
+    "NavHost requires a lifecycleOwner to be provided via LocalLifecycleOwner"
+  }
+  navController.lifecycleOwner = lifecycleOwner
 
-  DisposableEffect(navController) {
-    navController.getNavigatorHolder().run {
-      setNavigator(navigator)
-      onDispose { removeNavigator() }
-    }
+  val backDispatcherOwner = LocalBackDispatcherOwner.current
+  if (backDispatcherOwner != null) {
+    navController.backDispatcher = backDispatcherOwner.backDispatcher
   }
 
   LaunchedEffect(initialRoute, builder) {
@@ -32,6 +33,7 @@ fun NavHost(
     navController.graph = graph
   }
 
+  val navigator = navController.navigatorProvider.get(ComposeNavigator::class) ?: return
   val backStacks by navigator.backStacks.collectAsState()
 
   val backStack = backStacks.lastOrNull()
@@ -40,4 +42,7 @@ fun NavHost(
       backStack.scene.content(backStack)
     }
   }
+
+  val dialogNavigator = navController.navigatorProvider.get(DialogNavigator::class) ?: return
+  DialogHost(dialogNavigator)
 }

@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import me.seiko.chat.common.compose.ui.scene.home.HomeScene
 import me.seiko.jetpack.LocalNavController
-import me.seiko.jetpack.navigation2.rememberNavController
+import me.seiko.jetpack.navigation2.compose.rememberNavController
 
 @Composable
 fun App() {
