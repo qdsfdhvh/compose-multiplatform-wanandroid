@@ -3,7 +3,6 @@ package me.seiko.jetpack.navigation2.compose
 import androidx.compose.animation.Crossfade
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import me.seiko.jetpack.LocalBackDispatcherOwner
@@ -34,9 +33,8 @@ fun NavHost(
   }
 
   val navigator = navController.navigatorProvider.get(ComposeNavigator::class) ?: return
-  val backStacks by navigator.backStacks.collectAsState()
 
-  val backStack = backStacks.lastOrNull()
+  val backStack = navigator.backStacks.lastOrNull()
   if (backStack != null && backStack.scene is ComposeScene) {
     Crossfade(backStack.id, modifier) {
       backStack.scene.content(backStack)

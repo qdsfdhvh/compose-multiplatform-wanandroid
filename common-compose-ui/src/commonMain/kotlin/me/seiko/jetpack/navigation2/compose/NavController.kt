@@ -6,7 +6,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.collect
 import me.seiko.jetpack.navigation2.NavBackStackEntry
 import me.seiko.jetpack.navigation2.NavController
@@ -30,9 +29,4 @@ fun NavController.collectBackStackEntryAsState(): State<NavBackStackEntry?> {
     }
   }
   return currentBackStackState
-}
-
-@Composable
-fun NavController.collectBackStackQueueAsState(): SnapshotStateList<NavBackStackEntry> {
-  return backStackQueue
 }
