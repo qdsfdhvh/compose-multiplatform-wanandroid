@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import me.seiko.chat.common.compose.ui.model.HomeMenus
+import me.seiko.chat.common.compose.ui.theme.AppScene
 import me.seiko.compose.pager.HorizontalPager
 import me.seiko.compose.pager.rememberPagerState
 import me.seiko.jetpack.LocalNavController
@@ -26,28 +27,30 @@ fun HomeScene() {
 
   val pagerState = rememberPagerState()
 
-  Scaffold(
-    topBar = {
-      HomeTopBar()
-    },
-    bottomBar = {
-      HomeBottomBar(
-        items = menus,
-        selectIndex = pagerState.currentPage,
-        onItemClick = { index ->
-          scope.launch {
-            pagerState.scrollToPage(index)
+  AppScene {
+    Scaffold(
+      topBar = {
+        HomeTopBar()
+      },
+      bottomBar = {
+        HomeBottomBar(
+          items = menus,
+          selectIndex = pagerState.currentPage,
+          onItemClick = { index ->
+            scope.launch {
+              pagerState.scrollToPage(index)
+            }
           }
-        }
-      )
-    }
-  ) {
-    HorizontalPager(
-      count = menus.size,
-      state = pagerState,
-      key = { index -> menus[index].route }
-    ) { index ->
-      navController.SceneContent(menus[index].route)
+        )
+      }
+    ) {
+      HorizontalPager(
+        count = menus.size,
+        state = pagerState,
+        key = { index -> menus[index].route }
+      ) { index ->
+        navController.SceneContent(menus[index].route)
+      }
     }
   }
 }

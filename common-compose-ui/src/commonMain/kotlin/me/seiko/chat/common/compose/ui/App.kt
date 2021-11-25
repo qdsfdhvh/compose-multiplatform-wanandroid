@@ -1,8 +1,8 @@
 package me.seiko.chat.common.compose.ui
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import me.seiko.chat.common.compose.ui.theme.AppTheme
 import me.seiko.util.Logger
 
 @Composable
@@ -11,7 +11,7 @@ fun App() {
     Logger.init()
   }
 
-  MaterialTheme {
+  AppTheme {
     Route()
   }
 }

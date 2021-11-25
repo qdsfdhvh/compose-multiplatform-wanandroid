@@ -18,4 +18,5 @@ object Versions {
   const val generator = "0.17.2"
 
   const val composeJb = "1.0.0-beta6-dev464"
+  const val accompanist = "0.21.3-beta"
 }
