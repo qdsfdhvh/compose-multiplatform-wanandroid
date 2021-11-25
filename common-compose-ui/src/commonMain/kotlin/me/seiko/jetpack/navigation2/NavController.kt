@@ -45,7 +45,7 @@ open class NavController : LifecycleObserver, BackHandler {
       owner?.lifecycle?.addObserver(this)
     }
 
-  private var viewModel: NavControllerViewModel? = null
+  internal var viewModel: NavControllerViewModel? = null
 
   internal fun setViewModelStore(viewModelStore: ViewModelStore) {
     if (viewModel != NavControllerViewModel.create(viewModelStore)) {
@@ -57,7 +57,7 @@ open class NavController : LifecycleObserver, BackHandler {
     val path = route.substringBefore('?')
     val rawQuery = route.substringAfter('?', "")
 
-    val node = findNavDestination(path)
+    val node = findNavDestinationWithPath(path)
     val entry = node.createEntry(rawQuery, viewModel!!)
 
     if (builder == null) {
@@ -121,7 +121,12 @@ open class NavController : LifecycleObserver, BackHandler {
     return false
   }
 
-  private fun findNavDestination(path: String): NavDestination {
+  fun findNavDestination(route: String): NavDestination {
+    val path = route.substringBefore('?')
+    return findNavDestinationWithPath(path)
+  }
+
+  private fun findNavDestinationWithPath(path: String): NavDestination {
     val matchResult = routeParser.find(path)
     checkNotNull(matchResult) { "navigate target $path not found" }
     return matchResult.node
