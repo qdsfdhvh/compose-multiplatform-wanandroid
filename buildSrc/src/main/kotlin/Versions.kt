@@ -17,6 +17,6 @@ object Versions {
   const val ktLint = "0.42.1"
   const val generator = "0.17.2"
 
-  const val composeJb = "1.0.0-beta6-dev464"
+  const val composeJb = "1.0.0-rc4"
   const val accompanist = "0.21.3-beta"
 }
