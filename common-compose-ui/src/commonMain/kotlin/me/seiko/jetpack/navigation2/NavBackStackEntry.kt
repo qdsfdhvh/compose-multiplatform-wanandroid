@@ -52,6 +52,10 @@ class NavBackStackEntry internal constructor(
     return query(name, T::class)
   }
 
+  inline fun <reified T : Any> query(name: String, default: T): T {
+    return query(name, T::class) ?: default
+  }
+
   fun <T : Any> queryList(name: String, clazz: KClass<T>): List<T> {
     val values = queryString[name] ?: return emptyList()
     return values.map { convertValue(clazz, it) }

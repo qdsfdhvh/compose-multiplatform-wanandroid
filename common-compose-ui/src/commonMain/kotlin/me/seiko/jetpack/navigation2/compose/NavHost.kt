@@ -1,10 +1,10 @@
 package me.seiko.jetpack.navigation2.compose
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import me.seiko.jetpack.LocalBackDispatcherOwner
 import me.seiko.jetpack.LocalLifecycleOwner
@@ -40,21 +40,20 @@ fun NavHost(
     navController.graph = graph
   }
 
+  val saveableStateHolder = rememberSaveableStateHolder()
+
   val navigator = navController.navigatorProvider.get(ComposeNavigator::class) ?: return
 
   val backStack = navigator.backStacks.lastOrNull()
   if (backStack != null && backStack.scene is ComposeScene) {
-    Crossfade(backStack.id, modifier) {
+    Box(modifier) { // TODO Crossfade will multi run, error with saveableStateHolder
 
       DisposableEffect(Unit) {
         backStack.onActive()
         onDispose { backStack.onInActive() }
       }
 
-      CompositionLocalProvider(
-        LocalViewModelStoreOwner provides backStack,
-        LocalLifecycleOwner provides backStack,
-      ) {
+      backStack.LocalProvider(saveableStateHolder) {
         backStack.scene.content(backStack)
       }
     }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import me.seiko.chat.common.compose.ui.dialog.CustomDialog
 import me.seiko.chat.common.compose.ui.model.HomeMenus
+import me.seiko.chat.common.compose.ui.scene.detail.DetailScene
 import me.seiko.chat.common.compose.ui.scene.home.HomeScene
 import me.seiko.chat.common.compose.ui.scene.me.MeScene
 import me.seiko.chat.common.compose.ui.scene.mention.MentionScene
@@ -27,6 +28,8 @@ fun Route(navController: NavController = rememberNavController()) {
       scene(HomeMenus.Mention.route) { MentionScene() }
       scene(HomeMenus.Search.route) { SearchScene() }
       scene(HomeMenus.Me.route) { MeScene() }
+
+      scene("/detail") { DetailScene(it.query("id", 0)) }
 
       dialog("/dialog") { CustomDialog() }
     }

@@ -6,10 +6,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import me.seiko.chat.common.compose.ui.model.HomeMenus
 import me.seiko.jetpack.LocalNavController
 import kotlin.random.Random
 
@@ -17,13 +16,13 @@ import kotlin.random.Random
 fun MentionScene() {
   val navController = LocalNavController.current
 
-  val id = remember { Random.nextInt(100) }
+  val id = rememberSaveable { Random.nextInt(100) }
 
   Box(Modifier.fillMaxSize(), Alignment.Center) {
     Column {
       Text("MentionScene $id")
-      Button(onClick = { navController.navigate(HomeMenus.Mention.route) }) {
-        Text("go to mention")
+      Button(onClick = { navController.navigate("/detail?id=${id + 1}") }) {
+        Text("go to detail")
       }
     }
   }
