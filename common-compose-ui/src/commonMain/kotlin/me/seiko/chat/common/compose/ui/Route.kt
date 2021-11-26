@@ -6,10 +6,10 @@ import me.seiko.chat.common.compose.ui.dialog.CustomDialog
 import me.seiko.chat.common.compose.ui.model.HomeMenus
 import me.seiko.chat.common.compose.ui.scene.detail.DetailScene
 import me.seiko.chat.common.compose.ui.scene.home.HomeScene
-import me.seiko.chat.common.compose.ui.scene.me.MeScene
-import me.seiko.chat.common.compose.ui.scene.mention.MentionScene
-import me.seiko.chat.common.compose.ui.scene.search.SearchScene
-import me.seiko.chat.common.compose.ui.scene.timeline.TimelineScene
+import me.seiko.chat.common.compose.ui.scene.home.bottom.MeScene
+import me.seiko.chat.common.compose.ui.scene.home.bottom.MentionScene
+import me.seiko.chat.common.compose.ui.scene.home.bottom.SearchScene
+import me.seiko.chat.common.compose.ui.scene.home.bottom.TimelineScene
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.NavController
 import me.seiko.jetpack.navigation2.compose.NavHost

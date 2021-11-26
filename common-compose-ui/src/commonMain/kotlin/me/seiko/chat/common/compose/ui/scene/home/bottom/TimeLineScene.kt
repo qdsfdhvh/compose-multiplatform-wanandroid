@@ -1,4 +1,4 @@
-package me.seiko.chat.common.compose.ui.scene.timeline
+package me.seiko.chat.common.compose.ui.scene.home.bottom
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
