@@ -25,7 +25,7 @@ fun NavGraphBuilder.scene(
       route = route,
       content = content
     ),
-    navigatorName = ComposeNavigator::class
+    navigator = provider[ComposeNavigator::class]
   )
 )
 
@@ -38,6 +38,6 @@ fun NavGraphBuilder.dialog(
       route = route,
       content = content
     ),
-    navigatorName = DialogNavigator::class
+    navigator = provider[DialogNavigator::class]
   )
 )

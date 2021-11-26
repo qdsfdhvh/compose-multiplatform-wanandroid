@@ -36,13 +36,13 @@ fun NavHost(
   }
 
   LaunchedEffect(initialRoute, builder) {
-    val graph = NavGraphBuilder(initialRoute).apply(builder).build()
+    val graph = NavGraphBuilder(navController.navigatorProvider, initialRoute).apply(builder).build()
     navController.graph = graph
   }
 
   val saveableStateHolder = rememberSaveableStateHolder()
 
-  val navigator = navController.navigatorProvider.get(ComposeNavigator::class) ?: return
+  val navigator = navController.navigatorProvider.getNavigator(ComposeNavigator::class) ?: return
 
   val backStack = navigator.backStacks.lastOrNull()
   if (backStack != null && backStack.scene is ComposeScene) {
@@ -59,6 +59,6 @@ fun NavHost(
     }
   }
 
-  val dialogNavigator = navController.navigatorProvider.get(DialogNavigator::class) ?: return
+  val dialogNavigator = navController.navigatorProvider.getNavigator(DialogNavigator::class) ?: return
   DialogHost(dialogNavigator)
 }

@@ -32,6 +32,7 @@ open class NavController : LifecycleObserver, BackHandler {
 
   var backDispatcher: BackDispatcher? = null
     internal set(value) {
+      if (value === field) return
       field?.unregister(this)
       field = value
       value?.register(this)
@@ -39,7 +40,7 @@ open class NavController : LifecycleObserver, BackHandler {
 
   var lifecycleOwner: LifecycleOwner? = null
     internal set(owner) {
-      if (owner == field) return
+      if (owner === field) return
       field?.lifecycle?.removeObserver(this)
       field = owner
       owner?.lifecycle?.addObserver(this)
@@ -104,7 +105,7 @@ open class NavController : LifecycleObserver, BackHandler {
 
   private fun applyCommands(entry: NavBackStackEntry, vararg commands: Command) {
     backStackQueue.applyCommands(commands)
-    navigatorProvider.get(entry.navigatorName)?.applyCommands(commands)
+    entry.navigator.applyCommands(commands)
   }
 
   override fun onStateChanged(state: Lifecycle.State) {

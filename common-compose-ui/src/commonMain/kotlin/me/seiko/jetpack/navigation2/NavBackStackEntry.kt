@@ -1,6 +1,7 @@
 package me.seiko.jetpack.navigation2
 
 import me.seiko.jetpack.lifecycle.Lifecycle
+import me.seiko.jetpack.lifecycle.LifecycleObserver
 import me.seiko.jetpack.lifecycle.LifecycleOwner
 import me.seiko.jetpack.lifecycle.LifecycleRegistry
 import me.seiko.jetpack.viewmodel.ViewModelStore
@@ -12,7 +13,7 @@ class NavBackStackEntry internal constructor(
   val scene: Scene,
   private val rawQuery: String,
   private val viewModel: NavControllerViewModel,
-  internal val navigatorName: KClass<out Navigator>, // TODO remove it ?
+  internal val navigator: Navigator,
 ) : ViewModelStoreOwner, LifecycleOwner {
 
   private val queryString by lazy { parseRawQuery(rawQuery) }
@@ -26,6 +27,15 @@ class NavBackStackEntry internal constructor(
 
   override val lifecycle: Lifecycle
     get() = lifecycleRegistry
+
+  init {
+    lifecycle.addObserver(object : LifecycleObserver {
+      override fun onStateChanged(state: Lifecycle.State) {
+        viewModel.clear(id)
+        lifecycle.removeObserver(this)
+      }
+    })
+  }
 
   internal fun onActive() {
     lifecycleRegistry.currentState = Lifecycle.State.Active
