@@ -22,10 +22,9 @@ fun HomeScene() {
   val navController = LocalNavController.current
 
   val scope = rememberCoroutineScope()
+  val pagerState = rememberPagerState()
 
   val menus = remember { HomeMenus.values() }
-
-  val pagerState = rememberPagerState()
 
   AppScene {
     Scaffold(

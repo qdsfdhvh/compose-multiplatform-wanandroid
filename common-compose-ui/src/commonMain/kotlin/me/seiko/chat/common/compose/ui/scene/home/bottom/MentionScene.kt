@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import me.seiko.chat.common.compose.ui.Routes
 import me.seiko.jetpack.LocalNavController
 import kotlin.random.Random
 
@@ -21,7 +22,7 @@ fun MentionScene() {
   Box(Modifier.fillMaxSize(), Alignment.Center) {
     Column {
       Text("MentionScene $id")
-      Button(onClick = { navController.navigate("/detail?id=${id + 1}") }) {
+      Button(onClick = { navController.navigate(Routes.Detail(id + 1)) }) {
         Text("go to detail")
       }
     }

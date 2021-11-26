@@ -13,11 +13,12 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import me.seiko.chat.common.compose.ui.Routes
 import me.seiko.chat.common.compose.ui.theme.AppScene
 import me.seiko.jetpack.LocalNavController
 
 @Composable
-fun DetailScene(id: Long) {
+fun DetailScene(id: Int) {
   val navController = LocalNavController.current
 
   AppScene {
@@ -32,7 +33,7 @@ fun DetailScene(id: Long) {
       Box(Modifier.fillMaxSize(), Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
           Text("Detail $id")
-          Button(onClick = { navController.navigate("/detail?id=${id + 1}") }) {
+          Button(onClick = { navController.navigate(Routes.Detail(id + 1)) }) {
             Text("go to detail")
           }
         }

@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import me.seiko.chat.common.compose.ui.Routes
 import me.seiko.jetpack.LocalNavController
 
 @Composable
@@ -17,7 +18,7 @@ fun TimelineScene() {
   Box(Modifier.fillMaxSize(), Alignment.Center) {
     Column {
       Text("TimelineScene")
-      Button(onClick = { navController.navigate("/dialog") }) {
+      Button(onClick = { navController.navigate(Routes.Dialog) }) {
         Text("show dialog")
       }
     }
