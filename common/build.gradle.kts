@@ -25,6 +25,9 @@ kotlin {
 
         // Log https://github.com/AAkira/Napier
         api("io.github.aakira:napier:2.0.0")
+
+        // Http https://github.com/square/okhttp
+        api("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
       }
     }
     val commonTest by getting {
