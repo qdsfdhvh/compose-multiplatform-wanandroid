@@ -1,12 +1,9 @@
 package me.seiko.compose.component
 
-import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
-@Composable
-actual fun PlatformInsets(
-  control: NativeInsetsControl,
-  color: NativeInsetsColor,
-  content: @Composable () -> Unit
-) {
-  content()
-}
+actual fun Modifier.statusBarsHeight() = this
+actual fun Modifier.navigationBarsHeight() = this
+
+actual fun Modifier.statusBarsPadding() = this
+actual fun Modifier.navigationBarsPadding() = this

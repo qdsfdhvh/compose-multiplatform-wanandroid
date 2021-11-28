@@ -1,5 +1,5 @@
 package me.seiko.jetpack.dispatcher
 
-interface BackHandler {
+fun interface BackHandler {
   fun handleBackPress(): Boolean
 }

@@ -1,25 +1,9 @@
 package me.seiko.compose.component
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Modifier
 
-data class NativeInsetsControl(
-  val extendToTop: Boolean = false,
-  val extendToBottom: Boolean = false,
-  val extendToStart: Boolean = false,
-  val extendToEnd: Boolean = false,
-)
+expect fun Modifier.statusBarsHeight(): Modifier
+expect fun Modifier.navigationBarsHeight(): Modifier
 
-data class NativeInsetsColor(
-  val top: Color = Color.Transparent,
-  val bottom: Color = Color.Transparent,
-  val start: Color = Color.Transparent,
-  val end: Color = Color.Transparent,
-)
-
-@Composable
-expect fun PlatformInsets(
-  control: NativeInsetsControl,
-  color: NativeInsetsColor,
-  content: @Composable () -> Unit
-)
+expect fun Modifier.statusBarsPadding(): Modifier
+expect fun Modifier.navigationBarsPadding(): Modifier
