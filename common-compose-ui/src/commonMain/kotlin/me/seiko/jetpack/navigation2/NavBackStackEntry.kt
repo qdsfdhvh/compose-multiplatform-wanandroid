@@ -4,22 +4,29 @@ import me.seiko.jetpack.lifecycle.Lifecycle
 import me.seiko.jetpack.lifecycle.LifecycleObserver
 import me.seiko.jetpack.lifecycle.LifecycleOwner
 import me.seiko.jetpack.lifecycle.LifecycleRegistry
-import me.seiko.jetpack.viewmodel.ViewModelStore
 import me.seiko.jetpack.viewmodel.ViewModelStoreOwner
 import kotlin.reflect.KClass
 
 class NavBackStackEntry internal constructor(
   val id: Long,
   val scene: Scene,
-  private val rawQuery: String,
-  private val viewModel: NavControllerViewModel,
+  path: String,
+  rawQuery: String,
+  viewModel: NavControllerViewModel,
   internal val navigator: Navigator,
 ) : ViewModelStoreOwner, LifecycleOwner {
 
-  private val queryString by lazy { parseRawQuery(rawQuery) }
+  private val paramMap by lazy {
+    parsePath(scene, path)
+  }
 
-  override val viewModelStore: ViewModelStore
-    get() = viewModel.get(id = id)
+  private val queryMap by lazy {
+    parseRawQuery(rawQuery)
+  }
+
+  override val viewModelStore by lazy {
+    viewModel.get(id = id)
+  }
 
   private val lifecycleRegistry by lazy {
     LifecycleRegistry()
@@ -53,8 +60,21 @@ class NavBackStackEntry internal constructor(
     viewModelStore.clear()
   }
 
+  fun <T : Any> param(name: String, clazz: KClass<T>): T? {
+    val value = paramMap[name] ?: return null
+    return convertValue(clazz, value)
+  }
+
+  inline fun <reified T : Any> param(name: String): T? {
+    return param(name, T::class)
+  }
+
+  inline fun <reified T : Any> param(name: String, default: T): T {
+    return param(name, T::class) ?: default
+  }
+
   fun <T : Any> query(name: String, clazz: KClass<T>): T? {
-    val value = queryString[name]?.firstOrNull() ?: return null
+    val value = queryMap[name]?.firstOrNull() ?: return null
     return convertValue(clazz, value)
   }
 
@@ -67,7 +87,7 @@ class NavBackStackEntry internal constructor(
   }
 
   fun <T : Any> queryList(name: String, clazz: KClass<T>): List<T> {
-    val values = queryString[name] ?: return emptyList()
+    val values = queryMap[name] ?: return emptyList()
     return values.map { convertValue(clazz, it) }
   }
 
@@ -89,13 +109,45 @@ private fun <T : Any> convertValue(clazz: KClass<T>, value: String): T {
   } as T
 }
 
+// ../{id}/{value} and ../100/200 -> { id: 100, value: 200 }
+private fun parsePath(scene: Scene, path: String): Map<String, String> {
+  var routePath = scene.route
+  if (path.isEmpty() || routePath == path) return emptyMap()
+
+  val map = mutableMapOf<String, String>()
+
+  var indexOfParam = routePath.indexOf("/{")
+  while (indexOfParam != -1) {
+    if (path.length <= indexOfParam) throw IllegalArgumentException("Param not set")
+
+    val partOfNew = routePath.substring(0..indexOfParam)
+    val partOfCurrent = path.substring(0..indexOfParam)
+    if (partOfCurrent != partOfNew) throw IllegalArgumentException("Param not set")
+
+    val paramValue = path.substring(
+      indexOfParam + 1 until
+        (
+          path.indexOf('/', indexOfParam + 1).takeIf { it != -1 }
+            ?: path.length
+          )
+    )
+    val paramName = routePath.substring(indexOfParam + 2 until routePath.indexOf('}'))
+    map[paramName] = paramValue
+
+    routePath = routePath.replaceFirst("{$paramName}", paramValue)
+    indexOfParam = routePath.indexOf("/{")
+  }
+  return map
+}
+
 // aa=1&bb=2&aa=3 -> { aa: [1,3], bb: [2] }
 private fun parseRawQuery(rawQuery: String): Map<String, List<String>> {
-  val map = mutableMapOf<String, MutableList<String>>()
+  if (rawQuery.isEmpty()) return emptyMap()
 
   val rawParams = rawQuery.split('&')
-  if (rawParams.isEmpty()) return map
+  if (rawParams.isEmpty()) return emptyMap()
 
+  val map = mutableMapOf<String, MutableList<String>>()
   for (rawParam in rawParams) {
     val array = rawParam.split('=')
     if (array.size != 2 ||

@@ -6,11 +6,13 @@ data class NavDestination internal constructor(
 ) {
 
   internal fun createEntry(
-    rawQuery: String,
-    viewModel: NavControllerViewModel
+    viewModel: NavControllerViewModel,
+    path: String = "",
+    rawQuery: String = "",
   ) = NavBackStackEntry(
     id = navBackStackEntryId++,
     scene = scene,
+    path = path,
     rawQuery = rawQuery,
     navigator = navigator,
     viewModel = viewModel

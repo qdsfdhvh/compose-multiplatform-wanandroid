@@ -1,4 +1,4 @@
-package me.seiko.chat.common.compose.ui.scene.detail
+package me.seiko.chat.common.compose.ui.scene.user
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,14 +19,14 @@ import me.seiko.chat.common.compose.ui.theme.AppScene
 import me.seiko.jetpack.LocalNavController
 
 @Composable
-fun DetailScene(id: Int) {
+fun UserScene(id: Int, name: String) {
   val navController = LocalNavController.current
 
   AppScene {
     Scaffold(
       topBar = {
         TopAppBar(
-          title = { Text("Detail") },
+          title = { Text("User") },
           navigationIcon = {
             Icon(
               Icons.Filled.ArrowBack,
@@ -39,9 +39,9 @@ fun DetailScene(id: Int) {
     ) {
       Box(Modifier.fillMaxSize(), Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-          Text("Detail $id")
-          Button(onClick = { navController.navigate(Routes.Detail(id + 1)) }) {
-            Text("go to detail")
+          Text("User id=$id name=$name")
+          Button(onClick = { navController.navigate(Routes.User(id + 1, name)) }) {
+            Text("go to user")
           }
         }
       }

@@ -9,6 +9,7 @@ import me.seiko.chat.common.compose.ui.scene.home.bottom.MeScene
 import me.seiko.chat.common.compose.ui.scene.home.bottom.MentionScene
 import me.seiko.chat.common.compose.ui.scene.home.bottom.SearchScene
 import me.seiko.chat.common.compose.ui.scene.home.bottom.TimelineScene
+import me.seiko.chat.common.compose.ui.scene.user.UserScene
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.NavBackStackEntry
 import me.seiko.jetpack.navigation2.NavController
@@ -25,9 +26,12 @@ object Routes {
   const val Search = "search"
   const val Me = "me"
 
-  object Detail : IRoute {
-    override val route = "detail"
+  object Detail : IRoute("detail") {
     operator fun invoke(id: Int) = "$route?id=$id"
+  }
+
+  object User : IRoute("user/{id}/{name}") {
+    operator fun invoke(id: Int, name: String) = "user/$id/$name"
   }
 
   const val Dialog = "dialog"
@@ -45,6 +49,7 @@ fun Route(navController: NavController = rememberNavController()) {
       scene(Routes.Search) { SearchScene() }
       scene(Routes.Me) { MeScene() }
       scene(Routes.Detail) { DetailScene(it.query("id", 0)) }
+      scene(Routes.User) { UserScene(it.param("id", 0), it.param("name", "")) }
 
       dialog(Routes.Dialog) { CustomDialog() }
     }
@@ -57,6 +62,4 @@ private inline fun NavGraphBuilder.scene(
   noinline content: @Composable (NavBackStackEntry) -> Unit
 ) = scene(route.route, content)
 
-private interface IRoute {
-  val route: String
-}
+abstract class IRoute(val route: String)

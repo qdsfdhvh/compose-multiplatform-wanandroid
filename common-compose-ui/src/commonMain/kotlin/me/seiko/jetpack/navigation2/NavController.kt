@@ -11,7 +11,6 @@ open class NavController : LifecycleObserver, BackHandler {
 
   val navigatorProvider = NavigatorProvider()
 
-  private val routeParser = RouteParser()
   private val backStackQueue = NavBackStackQueue()
 
   val currentBackStack: NavBackStackEntry?
@@ -26,7 +25,6 @@ open class NavController : LifecycleObserver, BackHandler {
     }
     set(value) {
       _graph = value
-      routeParser.setNodes(value.nodes)
       navigate(value.initialRoute)
     }
 
@@ -59,7 +57,7 @@ open class NavController : LifecycleObserver, BackHandler {
     val rawQuery = route.substringAfter('?', "")
 
     val node = findNavDestinationWithPath(path)
-    val entry = node.createEntry(rawQuery, viewModel!!)
+    val entry = node.createEntry(viewModel!!, path = path, rawQuery = rawQuery)
 
     if (builder == null) {
       forward(entry)
@@ -128,8 +126,8 @@ open class NavController : LifecycleObserver, BackHandler {
   }
 
   private fun findNavDestinationWithPath(path: String): NavDestination {
-    val matchResult = routeParser.find(path)
-    checkNotNull(matchResult) { "navigate target $path not found" }
-    return matchResult.node
+    return checkNotNull(graph.findNode(path)) {
+      "navigate target $path not found"
+    }
   }
 }

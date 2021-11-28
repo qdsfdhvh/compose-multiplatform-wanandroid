@@ -20,3 +20,23 @@ class NavGraphBuilder internal constructor(
     nodes = nodes
   )
 }
+
+internal fun NavGraph.findNode(path: String, exact: Boolean = false): NavDestination? {
+  return nodes.find { it.matches(path, exact) }
+}
+
+private fun NavDestination.matches(path: String, exact: Boolean): Boolean {
+  return if (exact && !path.contains('{')) {
+    scene.route == path
+  } else {
+    var routeRegex = scene.route
+    var indexOfParam = routeRegex.indexOf('{')
+    while (indexOfParam != -1) {
+      val param = routeRegex.substring(indexOfParam..routeRegex.indexOf('}', indexOfParam))
+      routeRegex = routeRegex.replaceFirst(param, "[^/;]+")
+      indexOfParam = routeRegex.indexOf('{')
+    }
+    routeRegex += if (exact) "$" else ".*"
+    path.matches(routeRegex.toRegex())
+  }
+}
