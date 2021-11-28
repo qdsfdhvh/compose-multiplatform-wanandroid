@@ -29,11 +29,8 @@ fun HomeScene() {
   val scaffoldState = rememberScaffoldState()
 
   if (scaffoldState.drawerState.isOpen) {
-    BackHandler {
-      scope.launch {
-        scaffoldState.drawerState.close()
-      }
-      true
+    BackHandler(scope) {
+      scaffoldState.drawerState.close()
     }
   }
 
