@@ -16,7 +16,7 @@ class LifecycleRegistry : Lifecycle {
     }
 
   private fun dispatchState(value: Lifecycle.State) {
-    observers.iterator().forEach {
+    observers.toMutableList().forEach {
       it.onStateChanged(value)
     }
   }
