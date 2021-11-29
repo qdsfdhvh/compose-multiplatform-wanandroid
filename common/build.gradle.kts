@@ -19,6 +19,7 @@ kotlin {
       dependencies {
         api(Libs.Kotlin.stdlib)
         api(Libs.Kotlin.coroutinesCore)
+        api("androidx.annotation:annotation:1.3.0")
 
         // MultiPlatform Resource https://github.com/icerockdev/moko-resources
         api("dev.icerock.moko:resources:${Versions.generator}")

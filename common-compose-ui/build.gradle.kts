@@ -25,7 +25,6 @@ kotlin {
         api(compose.animation)
         api(compose.material)
         api(compose.materialIconsExtended)
-        api("dev.chrisbanes.snapper:snapper:0.1.0")
       }
     }
     val androidMain by getting {

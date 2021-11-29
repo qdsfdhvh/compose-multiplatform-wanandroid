@@ -11,10 +11,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.launch
 import me.seiko.chat.common.compose.ui.model.HomeMenus
 import me.seiko.compose.component.BackHandler
+import me.seiko.compose.component.Pager
+import me.seiko.compose.component.rememberPagerState
 import me.seiko.compose.material.CustomBottomNavigation
 import me.seiko.compose.material.CustomTopAppBar
-import me.seiko.compose.pager.HorizontalPager
-import me.seiko.compose.pager.rememberPagerState
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.compose.SceneContent
 
@@ -22,11 +22,11 @@ import me.seiko.jetpack.navigation2.compose.SceneContent
 fun HomeScene() {
   val navController = LocalNavController.current
 
-  val scope = rememberCoroutineScope()
-  val pagerState = rememberPagerState()
-  val scaffoldState = rememberScaffoldState()
-
   val menus = remember { HomeMenus.values() }
+
+  val scope = rememberCoroutineScope()
+  val pagerState = rememberPagerState(menus.size)
+  val scaffoldState = rememberScaffoldState()
 
   if (scaffoldState.drawerState.isOpen) {
     BackHandler {
@@ -48,7 +48,7 @@ fun HomeScene() {
         selectIndex = pagerState.currentPage,
         onItemClick = { index ->
           scope.launch {
-            pagerState.scrollToPage(index)
+            pagerState.currentPage = index
           }
         }
       )
@@ -57,12 +57,10 @@ fun HomeScene() {
       HomeDrawer()
     },
   ) {
-    HorizontalPager(
-      count = menus.size,
+    Pager(
       state = pagerState,
-      key = { index -> menus[index].route }
-    ) { index ->
-      navController.SceneContent(menus[index].route)
+    ) {
+      navController.SceneContent(menus[page].route)
     }
   }
 }
