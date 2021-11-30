@@ -30,6 +30,7 @@ import me.seiko.compose.component.Pager
 import me.seiko.compose.component.rememberPagerState
 import me.seiko.compose.component.statusBarsPadding
 import me.seiko.compose.material.CustomBottomNavigation
+import me.seiko.compose.material.CustomBottomNavigationItem
 import me.seiko.compose.material.CustomListItem
 import me.seiko.compose.material.CustomTopAppBar
 import me.seiko.jetpack.LocalNavController
@@ -101,7 +102,7 @@ fun HomeBottomBar(
 ) {
   CustomBottomNavigation {
     items.forEachIndexed { index, item ->
-      BottomNavigationItem(
+      CustomBottomNavigationItem(
         selected = selectIndex == index,
         icon = { Icon(item.icon, contentDescription = item.name) },
         onClick = { onItemClick(index) }
