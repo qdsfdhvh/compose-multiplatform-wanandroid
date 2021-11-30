@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
-import me.seiko.chat.common.compose.ui.App
+import me.seiko.chat.App
 import me.seiko.jetpack.lifecycle.PreComposeActivity
 import me.seiko.jetpack.lifecycle.setContent
 
