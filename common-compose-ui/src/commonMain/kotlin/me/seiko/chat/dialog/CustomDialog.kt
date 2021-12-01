@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import me.seiko.di.extension.getViewModel
+import me.seiko.chat.di.extension.getViewModel
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.viewmodel.ViewModel
 import me.seiko.util.Logger

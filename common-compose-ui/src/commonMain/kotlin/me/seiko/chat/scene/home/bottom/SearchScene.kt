@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import me.seiko.di.extension.getViewModel
+import me.seiko.chat.di.extension.getViewModel
 
 @Composable
 fun SearchScene() {

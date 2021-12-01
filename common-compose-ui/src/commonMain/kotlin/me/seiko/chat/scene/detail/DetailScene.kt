@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import me.seiko.chat.Routes
 import me.seiko.compose.material.CustomTopAppBar
-import me.seiko.di.extension.getViewModel
+import me.seiko.chat.di.extension.getViewModel
 import me.seiko.jetpack.LocalNavController
 import org.koin.core.parameter.parametersOf
 

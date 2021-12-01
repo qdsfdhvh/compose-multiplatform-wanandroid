@@ -1,4 +1,4 @@
-package me.seiko.di.extension
+package me.seiko.chat.di.extension
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember

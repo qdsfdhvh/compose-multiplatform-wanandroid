@@ -1,4 +1,4 @@
-package me.seiko.di.extension
+package me.seiko.chat.di.extension
 
 import me.seiko.jetpack.viewmodel.ViewModel
 import org.koin.core.annotation.KoinReflectAPI

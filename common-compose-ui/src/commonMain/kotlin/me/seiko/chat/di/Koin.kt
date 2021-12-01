@@ -1,6 +1,6 @@
-package me.seiko.di
+package me.seiko.chat.di
 
-import me.seiko.di.module.viewModelModule
+import me.seiko.chat.di.module.viewModelModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 

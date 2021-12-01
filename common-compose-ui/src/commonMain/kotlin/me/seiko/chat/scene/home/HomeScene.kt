@@ -33,7 +33,7 @@ import me.seiko.compose.material.CustomBottomNavigation
 import me.seiko.compose.material.CustomBottomNavigationItem
 import me.seiko.compose.material.CustomListItem
 import me.seiko.compose.material.CustomTopAppBar
-import me.seiko.di.extension.getViewModel
+import me.seiko.chat.di.extension.getViewModel
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.compose.SceneContent
 
