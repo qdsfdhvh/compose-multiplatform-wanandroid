@@ -25,6 +25,7 @@ kotlin {
         api(compose.animation)
         api(compose.material)
         api(compose.materialIconsExtended)
+        api("androidx.paging:paging-common:${Versions.paging}")
       }
     }
     val androidMain by getting {
