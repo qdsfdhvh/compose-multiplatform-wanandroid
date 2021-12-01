@@ -29,6 +29,9 @@ kotlin {
 
         // Http https://github.com/square/okhttp
         api("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
+
+        // Di https://github.com/InsertKoinIO/koin
+        api("io.insert-koin:koin-core:${Versions.koin}")
       }
     }
     val commonTest by getting {
@@ -39,6 +42,7 @@ kotlin {
     val androidMain by getting {
       dependencies {
         api(Libs.Kotlin.coroutinesAndroid)
+        api("io.insert-koin:koin-android:${Versions.koin}")
       }
     }
     val androidTest by getting {

@@ -22,9 +22,7 @@ fun NavHost(
   val lifecycleOwner = checkNotNull(LocalLifecycleOwner.current) {
     "NavHost requires a lifecycleOwner to be provided via LocalLifecycleOwner"
   }
-  val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
-    "NavHost requires a viewModelStoreOwner to be provided via LocalViewModelStoreOwner"
-  }
+  val viewModelStoreOwner = LocalViewModelStoreOwner.current
   val backDispatcherOwner = LocalBackDispatcherOwner.current
 
   LaunchedEffect(lifecycleOwner, viewModelStoreOwner, backDispatcherOwner) {

@@ -1,18 +1,23 @@
 package me.seiko.jetpack.viewmodel
 
-internal inline fun <reified T : ViewModel> ViewModelStore.getViewModel(
-  creator: () -> T
+import kotlin.reflect.KClass
+
+inline fun <reified T : ViewModel> ViewModelStore.getViewModel(
+  key: String = T::class.qualifiedName.toString(),
+  noinline creator: () -> T
 ): T {
-  return getViewModel(T::class.qualifiedName.toString(), creator)
+  return getViewModel(key, T::class, creator)
 }
 
-internal inline fun <reified T : ViewModel> ViewModelStore.getViewModel(
+fun <T : ViewModel> ViewModelStore.getViewModel(
   key: String,
+  clazz: KClass<T>,
   creator: () -> T
 ): T {
   val existing = get(key)
-  if (existing != null && existing is T) {
-    return existing
+  if (existing != null && clazz.isInstance(existing)) {
+    @Suppress("UNCHECKED_CAST")
+    return existing as T
   }
   val viewModel = creator()
   put(key, viewModel)

@@ -20,4 +20,5 @@ object Versions {
   const val composeJb = "1.0.0-rc6"
   const val accompanist = "0.21.3-beta"
   const val okhttp = "4.9.3"
+  const val koin = "3.1.4"
 }
