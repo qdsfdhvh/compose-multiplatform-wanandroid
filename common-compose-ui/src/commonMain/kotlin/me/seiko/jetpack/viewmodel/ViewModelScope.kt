@@ -7,7 +7,6 @@ import kotlinx.coroutines.cancel
 import me.seiko.jetpack.disposable.Disposable
 import kotlin.coroutines.CoroutineContext
 
-
 private const val JOB_KEY = " me.seiko.jetpack.viewmodel.ViewModelCoroutineScope.JOB_KEY"
 
 val ViewModel.viewModelScope: CoroutineScope

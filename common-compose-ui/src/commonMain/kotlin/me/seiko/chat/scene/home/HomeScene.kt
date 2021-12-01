@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import me.seiko.chat.di.extension.getViewModel
 import me.seiko.chat.model.HomeMenus
 import me.seiko.chat.model.ui.UiUser
 import me.seiko.compose.component.BackHandler
@@ -33,7 +34,6 @@ import me.seiko.compose.material.CustomBottomNavigation
 import me.seiko.compose.material.CustomBottomNavigationItem
 import me.seiko.compose.material.CustomListItem
 import me.seiko.compose.material.CustomTopAppBar
-import me.seiko.chat.di.extension.getViewModel
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.compose.SceneContent
 
