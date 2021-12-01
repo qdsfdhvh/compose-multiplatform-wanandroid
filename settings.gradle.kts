@@ -6,7 +6,7 @@ pluginManagement {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
   }
 }
-rootProject.name = "compose-chat"
+rootProject.name = "compose-multiplatform-study"
 
 include(":android")
 include(":desktop")
