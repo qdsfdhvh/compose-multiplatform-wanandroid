@@ -10,26 +10,21 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.seiko.di.extension.getViewModel
 import me.seiko.jetpack.LocalNavController
-import me.seiko.jetpack.LocalViewModelStoreOwner
 import me.seiko.jetpack.viewmodel.ViewModel
-import me.seiko.jetpack.viewmodel.getViewModel
 import me.seiko.util.Logger
 import kotlin.random.Random
 
 @Composable
 fun CustomDialog() {
   val navController = LocalNavController.current
-  val owner = LocalViewModelStoreOwner.current
 
-  val viewModel = remember {
-    owner!!.viewModelStore.getViewModel { CustomDialogViewModel() }
-  }
+  val viewModel: CustomDialogViewModel = getViewModel()
 
   Box(
     modifier = Modifier

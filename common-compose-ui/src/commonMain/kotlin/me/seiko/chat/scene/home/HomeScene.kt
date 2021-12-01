@@ -14,7 +14,8 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.primarySurface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +33,7 @@ import me.seiko.compose.material.CustomBottomNavigation
 import me.seiko.compose.material.CustomBottomNavigationItem
 import me.seiko.compose.material.CustomListItem
 import me.seiko.compose.material.CustomTopAppBar
+import me.seiko.di.extension.getViewModel
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.compose.SceneContent
 
@@ -39,18 +41,12 @@ import me.seiko.jetpack.navigation2.compose.SceneContent
 fun HomeScene() {
   val navController = LocalNavController.current
 
-  val menus = remember { HomeMenus.values() }
+  val viewModel: HomeViewModel = getViewModel()
+  val viewState by viewModel.state.collectAsState()
 
   val scope = rememberCoroutineScope()
-  val pagerState = rememberPagerState(menus.size)
+  val pagerState = rememberPagerState(viewState.menus.size)
   val scaffoldState = rememberScaffoldState()
-
-  val user = remember {
-    UiUser(
-      name = "SeikoDes",
-      logo = "https://z3.ax1x.com/2021/11/28/ouJxVx.jpg"
-    )
-  }
 
   if (scaffoldState.drawerState.isOpen) {
     BackHandler(scope) {
@@ -65,7 +61,7 @@ fun HomeScene() {
     },
     bottomBar = {
       HomeBottomBar(
-        items = menus,
+        items = viewState.menus,
         selectIndex = pagerState.currentPage,
         onItemClick = { index ->
           scope.launch {
@@ -75,13 +71,13 @@ fun HomeScene() {
       )
     },
     drawerContent = {
-      HomeDrawer(user = user)
+      HomeDrawer(user = viewState.user)
     },
   ) {
     Pager(
       state = pagerState,
     ) {
-      navController.SceneContent(menus[page].route)
+      navController.SceneContent(viewState.menus[page].route)
     }
   }
 }
@@ -95,7 +91,7 @@ fun HomeTopBar() {
 
 @Composable
 fun HomeBottomBar(
-  items: Array<HomeMenus>,
+  items: List<HomeMenus>,
   selectIndex: Int,
   onItemClick: (Int) -> Unit
 ) {
