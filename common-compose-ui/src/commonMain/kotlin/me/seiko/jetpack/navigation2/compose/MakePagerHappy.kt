@@ -4,10 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import me.seiko.jetpack.LocalLifecycleOwner
 import me.seiko.jetpack.LocalViewModelStoreOwner
 import me.seiko.jetpack.navigation2.NavController
 import me.seiko.jetpack.navigation2.NavControllerViewModel
+import me.seiko.jetpack.navigation2.NavDestination
 
 @Composable
 fun NavController.SceneContent(route: String) {
@@ -15,9 +17,17 @@ fun NavController.SceneContent(route: String) {
     "No ViewModelStoreOwner was provided via LocalViewModelStoreOwner"
   }
 
-  val entry = remember(route, owner) {
+  // save id to get NavControllerViewModel correctly
+  val entryId = rememberSaveable(route, owner) {
+    NavDestination.getEntryId()
+  }
+
+  val entry = remember(entryId) {
     val navDestination = findNavDestination(route)
-    navDestination.createEntry(NavControllerViewModel.create(owner.viewModelStore))
+    navDestination.createEntry(
+      id = entryId,
+      viewModel = NavControllerViewModel.create(owner.viewModelStore)
+    )
   }
 
   if (entry.scene is ComposeScene) {

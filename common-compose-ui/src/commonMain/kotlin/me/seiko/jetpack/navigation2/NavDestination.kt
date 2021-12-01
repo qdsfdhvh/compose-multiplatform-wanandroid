@@ -7,10 +7,11 @@ data class NavDestination internal constructor(
 
   internal fun createEntry(
     viewModel: NavControllerViewModel,
+    id: Long = getEntryId(),
     path: String = "",
     rawQuery: String = "",
   ) = NavBackStackEntry(
-    id = navBackStackEntryId++,
+    id = id,
     scene = scene,
     path = path,
     rawQuery = rawQuery,
@@ -19,6 +20,9 @@ data class NavDestination internal constructor(
   )
 
   companion object {
+
+    internal fun getEntryId() = navBackStackEntryId++
+
     private var navBackStackEntryId = 0L
   }
 }

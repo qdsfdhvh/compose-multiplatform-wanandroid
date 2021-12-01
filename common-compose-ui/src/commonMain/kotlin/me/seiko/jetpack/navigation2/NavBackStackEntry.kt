@@ -38,8 +38,10 @@ class NavBackStackEntry internal constructor(
   init {
     lifecycle.addObserver(object : LifecycleObserver {
       override fun onStateChanged(state: Lifecycle.State) {
-        viewModel.clear(id)
-        lifecycle.removeObserver(this)
+        if (Lifecycle.State.Destroyed === state) {
+          viewModel.clear(id)
+          lifecycle.removeObserver(this)
+        }
       }
     })
   }
