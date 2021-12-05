@@ -17,8 +17,15 @@ object Versions {
   const val ktLint = "0.42.1"
   const val generator = "0.17.2"
 
+  const val activity = "1.4.0"
+  const val annotation = "1.3.0"
+  const val core = "1.7.0"
+  const val dynamicanimation = "1.1.0-alpha03"
+  const val paging = "3.1.0"
+
   const val composeJb = "1.0.0"
   const val okhttp = "4.9.3"
   const val koin = "3.1.4"
-  const val paging = "3.1.0"
+  const val coil = "1.4.0"
+  const val napier = "2.0.0"
 }

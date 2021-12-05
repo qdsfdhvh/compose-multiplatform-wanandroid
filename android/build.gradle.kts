@@ -1,5 +1,5 @@
 plugins {
-  id("org.jetbrains.compose").version(Versions.composeJb)
+  id("org.jetbrains.compose") version Versions.composeJb
   id("com.android.application")
   kotlin("android")
 }
@@ -10,7 +10,6 @@ version = Package.versionName
 dependencies {
   implementation(project(":common"))
   implementation(project(":common-compose-ui"))
-  implementation("androidx.core:core:1.7.0")
 }
 
 android {

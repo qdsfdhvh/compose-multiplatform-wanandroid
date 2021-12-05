@@ -19,13 +19,13 @@ kotlin {
       dependencies {
         api(Libs.Kotlin.stdlib)
         api(Libs.Kotlin.coroutinesCore)
-        api("androidx.annotation:annotation:1.3.0")
+        api(Libs.Androidx.annotation)
 
         // MultiPlatform Resource https://github.com/icerockdev/moko-resources
         api("dev.icerock.moko:resources:${Versions.generator}")
 
         // Log https://github.com/AAkira/Napier
-        api("io.github.aakira:napier:2.0.0")
+        api("io.github.aakira:napier:${Versions.napier}")
 
         // Http https://github.com/square/okhttp
         api("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
@@ -42,6 +42,8 @@ kotlin {
     val androidMain by getting {
       dependencies {
         api(Libs.Kotlin.coroutinesAndroid)
+        api(Libs.Androidx.activity)
+        api(Libs.Androidx.core)
         api("io.insert-koin:koin-android:${Versions.koin}")
       }
     }

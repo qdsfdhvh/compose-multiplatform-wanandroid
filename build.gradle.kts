@@ -11,7 +11,7 @@ buildscript {
 }
 
 plugins {
-  id("com.diffplug.spotless").version(Versions.spotless)
+  id("com.diffplug.spotless") version Versions.spotless
 }
 
 group = "me.seiko.chat"

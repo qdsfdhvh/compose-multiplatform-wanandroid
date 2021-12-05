@@ -2,7 +2,7 @@ import org.jetbrains.compose.compose
 
 plugins {
   kotlin("multiplatform")
-  id("org.jetbrains.compose").version(Versions.composeJb)
+  id("org.jetbrains.compose") version Versions.composeJb
   id("com.android.library")
 }
 
@@ -25,14 +25,13 @@ kotlin {
         api(compose.animation)
         api(compose.material)
         api(compose.materialIconsExtended)
-        api("androidx.paging:paging-common:${Versions.paging}")
+        api(Libs.Androidx.paging)
       }
     }
     val androidMain by getting {
       dependencies {
-        api("androidx.activity:activity:1.4.0")
-        api("io.coil-kt:coil-compose:1.4.0")
-        api("androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03")
+        api(Libs.Androidx.dynamicanimation)
+        api("io.coil-kt:coil-compose:${Versions.coil}")
       }
     }
     val desktopMain by getting {
