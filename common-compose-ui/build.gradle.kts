@@ -30,7 +30,6 @@ kotlin {
     }
     val androidMain by getting {
       dependencies {
-        api(Libs.Androidx.dynamicanimation)
         api("io.coil-kt:coil-compose:${Versions.coil}")
       }
     }
