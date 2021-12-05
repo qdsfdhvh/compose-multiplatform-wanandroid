@@ -3,7 +3,7 @@ package me.seiko.kmp.resource
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import dev.icerock.moko.resources.FileResource
 import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.StringResource
@@ -18,15 +18,15 @@ actual class ResLoader(
 
   @Composable
   actual fun getSvg(res: FileResource): Painter {
-    return rememberImagePainter(
-      data = getResPath(context, res.rawResId)
+    return rememberAsyncImagePainter(
+      model = getResPath(context, res.rawResId)
     )
   }
 
   @Composable
   actual fun getImage(res: ImageResource): Painter {
-    return rememberImagePainter(
-      data = getResPath(context, res.drawableResId)
+    return rememberAsyncImagePainter(
+      model = getResPath(context, res.drawableResId)
     )
   }
 }

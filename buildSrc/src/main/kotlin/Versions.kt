@@ -25,6 +25,6 @@ object Versions {
   const val composeJb = "1.0.0"
   const val okhttp = "4.9.3"
   const val koin = "3.1.4"
-  const val coil = "1.4.0"
+  const val coil = "2.0.0-alpha05"
   const val napier = "2.0.0"
 }
