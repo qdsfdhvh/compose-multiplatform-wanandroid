@@ -3,21 +3,29 @@ package me.seiko.chat.scene.home.bottom
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import me.seiko.chat.model.ui.UiTimeLine
+import me.seiko.chat.service.wanandroid.WanAndroidService
 
-class TimeLineDataSource : PagingSource<Int, UiTimeLine>() {
+class TimeLineDataSource(
+  private val service: WanAndroidService,
+  private val pageSize: Int,
+) : PagingSource<Int, UiTimeLine>() {
 
   override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UiTimeLine> {
     val page = params.key ?: 0
-    return LoadResult.Page(
-      data = List(10) {
-        UiTimeLine(
-          id = page * 10 + it,
-          title = "page=$page id=${page * 10 + it}"
-        )
-      },
-      prevKey = if (page > 0) page - 1 else null,
-      nextKey = if (page < 10) page + 1 else null
-    )
+    return try {
+      LoadResult.Page(
+        data = service.getIndexList(page, pageSize).map { article ->
+          UiTimeLine(
+            id = article.id,
+            title = article.title
+          )
+        },
+        prevKey = if (page > 0) page - 1 else null,
+        nextKey = page + 1
+      )
+    } catch (e: Exception) {
+      LoadResult.Error(e)
+    }
   }
 
   override fun getRefreshKey(state: PagingState<Int, UiTimeLine>): Int? = null

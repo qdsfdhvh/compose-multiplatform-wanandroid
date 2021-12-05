@@ -16,7 +16,7 @@ val viewModelModule = module {
   viewModel { MentionViewModel() }
   viewModel { MeViewModel() }
   viewModel { SearchViewModel() }
-  viewModel { TimeLineViewModel() }
+  viewModel { TimeLineViewModel(get()) }
 
   viewModel { (id: Int) -> DetailViewModel(id) }
 

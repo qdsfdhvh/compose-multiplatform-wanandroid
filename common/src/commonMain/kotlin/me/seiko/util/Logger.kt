@@ -13,6 +13,10 @@ object Logger {
     Napier.d(lazyMessage)
   }
 
+  fun i(lazyMessage: () -> String) {
+    Napier.i(lazyMessage)
+  }
+
   fun w(e: Throwable, lazyMessage: () -> String) {
     Napier.w(lazyMessage, e)
   }

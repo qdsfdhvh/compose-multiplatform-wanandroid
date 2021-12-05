@@ -11,11 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import me.seiko.chat.Routes
 import me.seiko.chat.di.extension.getViewModel
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.paging.collectAsLazyPagingItems
 import me.seiko.jetpack.paging.items
+import me.seiko.util.Logger
 
 @Composable
 fun TimelineScene() {
@@ -38,6 +40,15 @@ fun TimelineScene() {
             .padding(10.dp)
             .clickable { navController.navigate(Routes.Detail(item.id)) }
         )
+      }
+    }
+
+    pageData.loadState.append.let {
+      when (it) {
+        is LoadState.Error -> {
+          Logger.w(it.error) { "Home Timeline error:" }
+        }
+        else -> { }
       }
     }
   }
