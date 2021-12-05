@@ -18,7 +18,6 @@ object Versions {
   const val generator = "0.17.2"
 
   const val composeJb = "1.0.0-rc6"
-  const val accompanist = "0.21.3-beta"
   const val okhttp = "4.9.3"
   const val koin = "3.1.4"
   const val paging = "3.1.0"

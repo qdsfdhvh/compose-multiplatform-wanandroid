@@ -32,7 +32,7 @@ kotlin {
       dependencies {
         api("androidx.activity:activity:1.4.0")
         api("io.coil-kt:coil-compose:1.4.0")
-        api("com.google.accompanist:accompanist-insets:${Versions.accompanist}")
+        api("androidx.dynamicanimation:dynamicanimation-ktx:1.0.0-alpha03")
       }
     }
     val desktopMain by getting {
