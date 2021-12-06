@@ -3,6 +3,7 @@ package me.seiko.chat.service.wanandroid
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import me.seiko.chat.service.wanandroid.model.Article
+import me.seiko.chat.service.wanandroid.model.Banner
 
 class WanAndroidService(
   private val httpClient: HttpClient
@@ -14,6 +15,10 @@ class WanAndroidService(
 
   suspend fun getIndexList(page: Int, pageSize: Int): List<Article> {
     return httpClient.getPageData("${BASE_URL}article/list/$page/json?page_size=$pageSize")
+  }
+
+  suspend fun getHomeBanner(): List<Banner> {
+    return httpClient.getResponse("${BASE_URL}banner/json")
   }
 }
 
