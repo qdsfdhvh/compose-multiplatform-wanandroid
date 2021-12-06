@@ -2,10 +2,7 @@ package me.seiko.compose.component
 
 import androidx.annotation.IntRange
 import androidx.compose.animation.core.Animatable
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.awaitHorizontalTouchSlopOrCancellation
-import androidx.compose.foundation.gestures.forEachGesture
-import androidx.compose.foundation.gestures.horizontalDrag
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -22,11 +19,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.pointer.PointerInputChange
-import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Measurable
@@ -108,21 +102,9 @@ class PagerState(
       _currentPage.value = value.floorMod(pageCount)
     }
 
-  enum class SelectionState { Selected, Undecided }
-
-  val selectionState = mutableStateOf(SelectionState.Selected)
-
-  suspend inline fun <R> selectPage(block: PagerState.() -> R): R = try {
-    selectionState.value = SelectionState.Undecided
-    block.invoke(this)
-  } finally {
-    selectPage()
-  }
-
   suspend fun selectPage() {
     currentPage -= currentPageOffset.roundToInt()
     snapToOffset(0f)
-    selectionState.value = SelectionState.Selected
   }
 
   private var _currentPageOffset = Animatable(0f).apply {
@@ -203,10 +185,9 @@ fun Pager(
     modifier = modifier
       .pointerInput(Unit) {
         if (dragEnabled) {
-          detectHorizontalDrag(
+          detectHorizontalDragGestures(
             onHorizontalDrag = { change, dragAmount ->
               with(state) {
-                selectionState.value = PagerState.SelectionState.Undecided
                 val pos = pageSize * currentPageOffset
                 val max =
                   if (currentPage == firstPageIndex) 0 else pageSize * offscreenLimit
@@ -285,36 +266,4 @@ class PagerScope(
    */
   val currentPageOffset: Float
     get() = state.currentPageOffset
-
-  /**
-   * Returns the current selection state
-   */
-  val selectionState: PagerState.SelectionState
-    get() = state.selectionState.value
-}
-
-private suspend fun PointerInputScope.detectHorizontalDrag(
-  onDragStart: (Offset) -> Unit = { },
-  onDragEnd: () -> Unit = { },
-  onDragCancel: () -> Unit = { },
-  onHorizontalDrag: (change: PointerInputChange, dragAmount: Float) -> Unit
-) {
-  forEachGesture {
-    awaitPointerEventScope {
-      val down = awaitFirstDown(requireUnconsumed = false)
-      val drag = awaitHorizontalTouchSlopOrCancellation(down.id, onHorizontalDrag)
-      if (drag != null) {
-        onDragStart.invoke(drag.position)
-        if (
-          horizontalDrag(drag.id) {
-            onHorizontalDrag(it, it.positionChange().x)
-          }
-        ) {
-          onDragEnd()
-        } else {
-          onDragCancel()
-        }
-      }
-    }
-  }
 }
