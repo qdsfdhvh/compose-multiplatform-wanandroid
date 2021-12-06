@@ -47,10 +47,11 @@ fun rememberPagerState(
   @IntRange(from = 0) pageCount: Int,
   @IntRange(from = 0) initialPage: Int = 0,
 ): PagerState {
-  return rememberSaveable(
-    saver = PagerState.Saver,
-  ) {
-    PagerState(pageCount = pageCount, currentPage = initialPage)
+  return rememberSaveable(saver = PagerState.Saver) {
+    PagerState(
+      pageCount = pageCount,
+      currentPage = initialPage,
+    )
   }.apply {
     this.pageCount = pageCount
   }
@@ -62,8 +63,8 @@ class PagerState(
   @IntRange(from = 0) currentPage: Int = 0,
 ) {
   private val velocityTracker = VelocityTracker()
-  private var _pageCount by mutableStateOf(pageCount)
-  private var _currentPage by mutableStateOf(currentPage)
+  private val _pageCount = mutableStateOf(pageCount)
+  private val _currentPage = mutableStateOf(currentPage)
 
   companion object {
     val Saver: Saver<PagerState, *> = listSaver(
@@ -85,10 +86,10 @@ class PagerState(
 
   @get:IntRange(from = 0)
   var pageCount: Int
-    get() = _pageCount
+    get() = _pageCount.value
     set(@IntRange(from = 0) value) {
       require(value >= 0) { "pageCount must be >= 0" }
-      _pageCount = value
+      _pageCount.value = value
       currentPage = currentPage.coerceIn(firstPageIndex, lastPageIndex)
       // updateLayoutPages(currentPage)
     }
@@ -102,17 +103,17 @@ class PagerState(
 
   @get:IntRange(from = 0)
   var currentPage: Int
-    get() = _currentPage
+    get() = _currentPage.value
     set(value) {
-      _currentPage = value.floorMod(pageCount)
+      _currentPage.value = value.floorMod(pageCount)
     }
 
   enum class SelectionState { Selected, Undecided }
 
-  var selectionState by mutableStateOf(SelectionState.Selected)
+  val selectionState = mutableStateOf(SelectionState.Selected)
 
   suspend inline fun <R> selectPage(block: PagerState.() -> R): R = try {
-    selectionState = SelectionState.Undecided
+    selectionState.value = SelectionState.Undecided
     block.invoke(this)
   } finally {
     selectPage()
@@ -121,7 +122,7 @@ class PagerState(
   suspend fun selectPage() {
     currentPage -= currentPageOffset.roundToInt()
     snapToOffset(0f)
-    selectionState = SelectionState.Selected
+    selectionState.value = SelectionState.Selected
   }
 
   private var _currentPageOffset = Animatable(0f).apply {
@@ -205,7 +206,7 @@ fun Pager(
           detectHorizontalDrag(
             onHorizontalDrag = { change, dragAmount ->
               with(state) {
-                selectionState = PagerState.SelectionState.Undecided
+                selectionState.value = PagerState.SelectionState.Undecided
                 val pos = pageSize * currentPageOffset
                 val max =
                   if (currentPage == firstPageIndex) 0 else pageSize * offscreenLimit
@@ -289,7 +290,7 @@ class PagerScope(
    * Returns the current selection state
    */
   val selectionState: PagerState.SelectionState
-    get() = state.selectionState
+    get() = state.selectionState.value
 }
 
 private suspend fun PointerInputScope.detectHorizontalDrag(
