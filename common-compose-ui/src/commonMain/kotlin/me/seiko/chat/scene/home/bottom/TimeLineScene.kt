@@ -73,9 +73,9 @@ fun TimelineScene() {
     pageData.loadState.append.let {
       when (it) {
         is LoadState.Error -> {
-          Logger.w(it.error) { "Home Timeline error:" }
+          Logger.w(tag = "Timeline", throwable = it.error) { "Home Timeline error:" }
         }
-        else -> { }
+        else -> {}
       }
     }
   }

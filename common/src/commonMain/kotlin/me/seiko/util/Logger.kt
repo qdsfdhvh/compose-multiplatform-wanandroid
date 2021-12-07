@@ -9,15 +9,15 @@ object Logger {
     Napier.base(antilog)
   }
 
-  fun d(lazyMessage: () -> String) {
-    Napier.d(lazyMessage)
+  fun d(tag: String? = null, throwable: Throwable? = null, lazyMessage: () -> String) {
+    Napier.d(lazyMessage, throwable, tag)
   }
 
-  fun i(lazyMessage: () -> String) {
-    Napier.i(lazyMessage)
+  fun i(tag: String? = null, throwable: Throwable? = null, lazyMessage: () -> String) {
+    Napier.i(lazyMessage, throwable, tag)
   }
 
-  fun w(e: Throwable, lazyMessage: () -> String) {
-    Napier.w(lazyMessage, e)
+  fun w(tag: String? = null, throwable: Throwable? = null, lazyMessage: () -> String) {
+    Napier.w(lazyMessage, throwable, tag)
   }
 }

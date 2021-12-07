@@ -19,7 +19,7 @@ private fun provideOkHttpClient(): OkHttpClient {
   return OkHttpClient.Builder()
     .addInterceptor(
       HttpLoggingInterceptor { msg ->
-        Logger.i { msg }
+        Logger.i(tag = "okhttp") { msg }
       }.apply {
         level = HttpLoggingInterceptor.Level.BODY
       }
