@@ -21,6 +21,7 @@ class TimeLineDataSource(
             author = article.author.ifEmpty { article.shareUser },
             time = article.niceDate,
             tip = listOf(article.chapterName, article.superChapterName).joinToString("·"),
+            url = article.link,
             isStar = false
           )
         },

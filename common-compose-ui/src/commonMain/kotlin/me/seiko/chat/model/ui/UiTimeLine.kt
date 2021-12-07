@@ -6,5 +6,6 @@ data class UiTimeLine(
   val author: String,
   val time: String,
   val tip: String,
+  val url: String,
   val isStar: Boolean
 )

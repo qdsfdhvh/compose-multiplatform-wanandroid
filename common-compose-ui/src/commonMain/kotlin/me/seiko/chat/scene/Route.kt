@@ -1,7 +1,8 @@
-package me.seiko.chat
+package me.seiko.chat.scene
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import me.seiko.chat.HTTP_REGEX
 import me.seiko.chat.dialog.CustomDialog
 import me.seiko.chat.scene.detail.DetailScene
 import me.seiko.chat.scene.home.HomeScene
@@ -10,6 +11,7 @@ import me.seiko.chat.scene.home.bottom.MentionScene
 import me.seiko.chat.scene.home.bottom.SearchScene
 import me.seiko.chat.scene.home.bottom.TimelineScene
 import me.seiko.chat.scene.user.UserScene
+import me.seiko.chat.scene.web.WebScene
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.NavBackStackEntry
 import me.seiko.jetpack.navigation2.NavController
@@ -52,6 +54,8 @@ fun Route(navController: NavController = rememberNavController()) {
       scene(Routes.User) { UserScene(it.param("id", 0), it.param("name", "")) }
 
       dialog(Routes.Dialog) { CustomDialog() }
+
+      scene(HTTP_REGEX) { WebScene(it.route) }
     }
   }
 }

@@ -8,7 +8,7 @@ import androidx.compose.material.icons.outlined.Sms
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.icerock.moko.resources.StringResource
 import me.seiko.chat.MR
-import me.seiko.chat.Routes
+import me.seiko.chat.scene.Routes
 
 enum class HomeMenus(
   val icon: ImageVector,

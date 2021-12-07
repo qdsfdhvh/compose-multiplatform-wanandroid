@@ -14,6 +14,7 @@ fun TimeLineItemPreview() {
       author = "仍物线",
       time = "2021-11-11 10:10:00",
       tip = "干活资源·课程推荐",
+      url = "",
       isStar = true,
     ),
     onItemClick = {}

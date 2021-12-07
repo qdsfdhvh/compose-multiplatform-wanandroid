@@ -2,6 +2,7 @@ package me.seiko.chat
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import me.seiko.chat.scene.Route
 import me.seiko.chat.theme.AppTheme
 import me.seiko.util.Logger
 

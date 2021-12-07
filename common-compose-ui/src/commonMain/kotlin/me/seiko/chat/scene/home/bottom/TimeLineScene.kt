@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import me.seiko.chat.Routes
 import me.seiko.chat.di.extension.getViewModel
 import me.seiko.chat.model.ui.UiTimeLine
 import me.seiko.compose.component.Banner
@@ -68,7 +67,7 @@ fun TimelineScene() {
     items(pageData) { item ->
       if (item != null) {
         TimeLineItem(item) {
-          navController.navigate(Routes.Detail(item.id))
+          navController.navigate(item.url)
         }
       }
     }

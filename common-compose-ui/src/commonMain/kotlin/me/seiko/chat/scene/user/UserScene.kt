@@ -13,7 +13,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import me.seiko.chat.Routes
+import me.seiko.chat.scene.Routes
 import me.seiko.compose.material.CustomTopAppBar
 import me.seiko.jetpack.LocalNavController
 
