@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -95,12 +96,16 @@ fun HomeBottomBar(
   selectIndex: Int,
   onItemClick: (Int) -> Unit
 ) {
-  CustomBottomNavigation {
+  CustomBottomNavigation(
+    backgroundColor = MaterialTheme.colors.surface,
+  ) {
     items.forEachIndexed { index, item ->
       CustomBottomNavigationItem(
         selected = selectIndex == index,
         icon = { Icon(item.icon, contentDescription = item.name) },
-        onClick = { onItemClick(index) }
+        onClick = { onItemClick(index) },
+        selectedContentColor = MaterialTheme.colors.primarySurface,
+        unselectedContentColor = Color.LightGray
       )
     }
   }
