@@ -4,27 +4,39 @@ import androidx.compose.runtime.Composable
 import me.seiko.jetpack.navigation2.NavBackStackEntry
 import me.seiko.jetpack.navigation2.NavDestination
 import me.seiko.jetpack.navigation2.NavGraphBuilder
-import me.seiko.jetpack.navigation2.Scene
+import me.seiko.jetpack.navigation2.RegexScene
+import me.seiko.jetpack.navigation2.RouteScene
 
-data class ComposeScene(
-  override val route: String,
+interface ComposeScene {
   val content: @Composable (NavBackStackEntry) -> Unit
-) : Scene
+}
 
-data class DialogScene(
-  override val route: String,
+interface DialogScene {
   val content: @Composable (NavBackStackEntry) -> Unit
-) : Scene
+}
 
 fun NavGraphBuilder.scene(
   route: String,
   content: @Composable (NavBackStackEntry) -> Unit
 ) = composable(
   NavDestination(
-    scene = ComposeScene(
-      route = route,
-      content = content
-    ),
+    scene = object : ComposeScene, RouteScene {
+      override val route: String = route
+      override val content: @Composable (NavBackStackEntry) -> Unit = content
+    },
+    navigator = provider[ComposeNavigator::class]
+  )
+)
+
+fun NavGraphBuilder.scene(
+  regex: Regex,
+  content: @Composable (NavBackStackEntry) -> Unit
+) = composable(
+  NavDestination(
+    scene = object : ComposeScene, RegexScene {
+      override val regex: Regex = regex
+      override val content: @Composable (NavBackStackEntry) -> Unit = content
+    },
     navigator = provider[ComposeNavigator::class]
   )
 )
@@ -34,10 +46,10 @@ fun NavGraphBuilder.dialog(
   content: @Composable (NavBackStackEntry) -> Unit
 ) = composable(
   NavDestination(
-    scene = DialogScene(
-      route = route,
-      content = content
-    ),
+    scene = object : DialogScene, RouteScene {
+      override val route: String = route
+      override val content: @Composable (NavBackStackEntry) -> Unit = content
+    },
     navigator = provider[DialogNavigator::class]
   )
 )

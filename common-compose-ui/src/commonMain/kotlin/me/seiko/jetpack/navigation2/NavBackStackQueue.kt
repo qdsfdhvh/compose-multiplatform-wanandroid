@@ -31,7 +31,7 @@ open class NavBackStackQueue : Navigator {
 
   private fun backTo(command: Command.BackTo) {
     val options = command.options
-    var index = backStacks.indexOfLast { it.scene.route == options.popUpToRoute }
+    var index = backStacks.indexOfLast { it.scene.matches(options.popUpToRoute) }
     if (index == -1) {
       backStacks.add(command.entry)
       return

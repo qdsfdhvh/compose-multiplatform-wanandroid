@@ -9,18 +9,19 @@ import kotlin.reflect.KClass
 
 class NavBackStackEntry internal constructor(
   val id: Long,
+  val route: String,
   val scene: Scene,
-  path: String,
-  rawQuery: String,
   viewModel: NavControllerViewModel,
   internal val navigator: Navigator,
 ) : ViewModelStoreOwner, LifecycleOwner {
 
   private val paramMap by lazy {
+    val path = route.substringBefore('?')
     parsePath(scene, path)
   }
 
   private val queryMap by lazy {
+    val rawQuery = route.substringAfter('?', "")
     parseRawQuery(rawQuery)
   }
 
@@ -113,6 +114,8 @@ private fun <T : Any> convertValue(clazz: KClass<T>, value: String): T {
 
 // ../{id}/{value} and ../100/200 -> { id: 100, value: 200 }
 private fun parsePath(scene: Scene, path: String): Map<String, String> {
+  if (scene !is RouteScene) return emptyMap()
+
   var routePath = scene.route
   if (path.isEmpty() || routePath == path) return emptyMap()
 

@@ -53,11 +53,8 @@ open class NavController : LifecycleObserver, BackHandler {
   }
 
   fun navigate(route: String, builder: (NavOptionsBuilder.() -> Unit)? = null) {
-    val path = route.substringBefore('?')
-    val rawQuery = route.substringAfter('?', "")
-
-    val node = findNavDestinationWithPath(path)
-    val entry = node.createEntry(viewModel!!, path = path, rawQuery = rawQuery)
+    val node = findNavDestination(route)
+    val entry = node.createEntry(viewModel!!, route)
 
     if (builder == null) {
       forward(entry)
@@ -68,7 +65,7 @@ open class NavController : LifecycleObserver, BackHandler {
 
     val currentBackStack = currentBackStack
     if (options.singleTop && currentBackStack != null) {
-      if (route == currentBackStack.scene.route) {
+      if (currentBackStack.scene.matches(route)) {
         return
       }
     }
@@ -116,18 +113,12 @@ open class NavController : LifecycleObserver, BackHandler {
   }
 
   override fun handleBackPress(): Boolean {
-    if (pop()) return true
-    return false
+    return pop()
   }
 
   fun findNavDestination(route: String): NavDestination {
-    val path = route.substringBefore('?')
-    return findNavDestinationWithPath(path)
-  }
-
-  private fun findNavDestinationWithPath(path: String): NavDestination {
-    return checkNotNull(graph.findNode(path)) {
-      "navigate target $path not found"
+    return checkNotNull(graph.findNode(route)) {
+      "navigate target $route not found"
     }
   }
 }
