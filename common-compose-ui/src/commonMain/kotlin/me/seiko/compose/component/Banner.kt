@@ -68,6 +68,7 @@ fun Banner(
 ) {
   var pageSize by remember { mutableStateOf(0) }
   var isTouching by remember { mutableStateOf(false) }
+  var moveDragAmount = remember { 0f }
 
   val currentPage = state.currentPage
   val currentPageOffset = state.currentPageOffset
@@ -85,22 +86,26 @@ fun Banner(
           },
           onDragEnd = {
             isTouching = false
+            moveDragAmount = 0f
             coroutineScope.launch {
               state.dragEnd(pageSize)
             }
           },
           onDragCancel = {
             isTouching = false
+            moveDragAmount = 0f
             coroutineScope.launch {
               state.dragEnd(pageSize)
             }
           },
           onHorizontalDrag = { change, dragAmount ->
+            moveDragAmount += dragAmount
+
             val newPos = with(state) {
               val pos = pageSize * currentPageOffset
               val max = pageSize
               val min = -pageSize
-              (pos + dragAmount).coerceIn(min.toFloat(), max.toFloat())
+              (pos + moveDragAmount).coerceIn(min.toFloat(), max.toFloat())
             }
             if (newPos != 0f) {
               change.consumePositionChange()
