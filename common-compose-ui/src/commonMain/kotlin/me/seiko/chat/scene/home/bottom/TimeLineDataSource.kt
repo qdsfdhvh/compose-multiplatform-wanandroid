@@ -17,7 +17,11 @@ class TimeLineDataSource(
         data = service.getIndexList(page, pageSize).map { article ->
           UiTimeLine(
             id = article.id,
-            title = article.title
+            title = article.title,
+            author = article.author.ifEmpty { article.shareUser },
+            time = article.niceDate,
+            tip = listOf(article.chapterName, article.superChapterName).joinToString("·"),
+            isStar = false
           )
         },
         prevKey = if (page > 0) page - 1 else null,

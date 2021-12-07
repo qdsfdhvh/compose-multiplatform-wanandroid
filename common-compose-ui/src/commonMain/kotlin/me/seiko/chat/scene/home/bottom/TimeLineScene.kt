@@ -1,14 +1,16 @@
 package me.seiko.chat.scene.home.bottom
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,8 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import me.seiko.chat.Routes
 import me.seiko.chat.di.extension.getViewModel
+import me.seiko.chat.model.ui.UiTimeLine
 import me.seiko.compose.component.Banner
 import me.seiko.compose.component.NetworkImage
+import me.seiko.compose.material.CustomIcon
+import me.seiko.compose.simple.RowSpaceBetween
+import me.seiko.compose.simple.SpacerHeight
+import me.seiko.compose.simple.TextCaption
+import me.seiko.compose.simple.TextSubTitle1
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.paging.collectAsLazyPagingItems
 import me.seiko.jetpack.paging.items
@@ -59,14 +67,9 @@ fun TimelineScene() {
 
     items(pageData) { item ->
       if (item != null) {
-        Text(
-          text = item.title,
-          modifier = Modifier
-            .padding(10.dp)
-            .background(MaterialTheme.colors.primary)
-            .padding(10.dp)
-            .clickable { navController.navigate(Routes.Detail(item.id)) }
-        )
+        TimeLineItem(item) {
+          navController.navigate(Routes.Detail(item.id))
+        }
       }
     }
 
@@ -77,6 +80,32 @@ fun TimelineScene() {
         }
         else -> {}
       }
+    }
+  }
+}
+
+@Composable
+fun TimeLineItem(
+  item: UiTimeLine,
+  onItemClick: () -> Unit,
+) {
+  Column(
+    modifier = Modifier
+      .padding(10.dp)
+      .fillMaxWidth()
+      .clickable { onItemClick() }
+  ) {
+    RowSpaceBetween {
+      TextCaption(item.author)
+      TextCaption(item.time)
+    }
+    SpacerHeight(2.dp)
+    TextSubTitle1(item.title)
+    SpacerHeight(2.dp)
+    RowSpaceBetween {
+      TextCaption(item.tip)
+      val image = if (item.isStar) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder
+      CustomIcon(image, Modifier.size(16.dp))
     }
   }
 }
