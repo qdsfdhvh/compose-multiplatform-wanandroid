@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.http.SslError
 import android.os.Build
-import android.webkit.SslErrorHandler
 import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
@@ -20,7 +18,6 @@ class WebViewController(
   private val context: Context,
   private var linkUrl: String,
   private val webView: AndroidWebView,
-  // private val progressBar: ProgressBar,
   private val onProgress: (Int) -> Unit = {},
   private val onLoading: (Boolean) -> Unit = {}
 ) {

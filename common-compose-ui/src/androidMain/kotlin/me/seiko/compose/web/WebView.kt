@@ -1,6 +1,5 @@
 package me.seiko.compose.web
 
-import android.webkit.WebView
 import android.widget.FrameLayout
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.LinearProgressIndicator
@@ -16,7 +15,7 @@ import me.seiko.jetpack.LocalLifecycleOwner
 import me.seiko.jetpack.lifecycle.Lifecycle
 import me.seiko.jetpack.lifecycle.LifecycleObserver
 
-typealias AndroidWebView = WebView
+typealias AndroidWebView = android.webkit.WebView
 
 @Composable
 actual fun WebView(url: String, modifier: Modifier) {
@@ -34,7 +33,7 @@ actual fun WebView(url: String, modifier: Modifier) {
     }
     AndroidView(
       factory = { context ->
-        WebView(context).apply {
+        AndroidWebView(context).apply {
           layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
