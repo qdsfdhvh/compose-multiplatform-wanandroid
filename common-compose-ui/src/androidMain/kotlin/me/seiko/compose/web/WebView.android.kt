@@ -11,33 +11,31 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.viewinterop.AndroidView
 import me.seiko.util.Logger
 
-class WebViewController(
+@Composable
+actual fun WebView(url: String, modifier: Modifier) {
+  val context = LocalContext.current
+  val webView = remember(url) { AndroidCustomWebView(context, url) }
+  WebView(webView, modifier)
+}
+
+class AndroidCustomWebView(
   private val context: Context,
   private var linkUrl: String,
-  private val webView: AndroidWebView,
-  private val onProgress: (Int) -> Unit = {},
-  private val onLoading: (Boolean) -> Unit = {}
-) {
+) : CustomWebView {
 
-  fun initSettings() {
-    setWebSettings()
-    setupWebClient()
-  }
+  private val webView = WebView(context)
 
-  fun onResume() {
-    webView.onResume()
-  }
-
-  fun onPause() {
-    webView.onPause()
-  }
-
-  fun onDestroy() {
-    webView.destroy()
-  }
+  override var onLoading: (Boolean) -> Unit = {}
+  override var onProgress: (Float) -> Unit = {}
 
   @SuppressLint("SetJavaScriptEnabled")
   private fun setWebSettings() {
@@ -61,15 +59,29 @@ class WebViewController(
   }
 
   private fun setupWebClient() {
-    webView.webViewClient = NewWebViewClient()
-    webView.webChromeClient = ProgressWebViewChromeClient()
+    webView.webViewClient = AppWebViewClient()
+    webView.webChromeClient = AppWebViewChromeClient()
   }
 
-  fun refresh() {
+  private fun onCreate() {
+    setWebSettings()
+    setupWebClient()
     webView.loadUrl(linkUrl)
   }
 
-  fun goBack(): Boolean {
+  override fun onResume() {
+    webView.onResume()
+  }
+
+  override fun onPause() {
+    webView.onPause()
+  }
+
+  override fun onDestroy() {
+    webView.destroy()
+  }
+
+  override fun goBack(): Boolean {
     if (webView.canGoBack()) {
       webView.goBack()
       return true
@@ -77,10 +89,26 @@ class WebViewController(
     return false
   }
 
-  private inner class ProgressWebViewChromeClient : WebChromeClient() {
+  @Composable
+  override fun Content() {
+    AndroidView(
+      factory = {
+        webView.apply {
+          layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
+          )
+          onCreate()
+        }
+      },
+      update = {}
+    )
+  }
+
+  private inner class AppWebViewChromeClient : WebChromeClient() {
     override fun onProgressChanged(view: WebView?, newProgress: Int) {
       super.onProgressChanged(view, newProgress)
-      onProgress(newProgress)
+      onProgress(newProgress / 100f)
     }
 
     override fun onReceivedTitle(view: WebView?, title: String?) {
@@ -88,7 +116,7 @@ class WebViewController(
     }
   }
 
-  private inner class NewWebViewClient : WebViewClient() {
+  private inner class AppWebViewClient : WebViewClient() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun shouldOverrideUrlLoading(
