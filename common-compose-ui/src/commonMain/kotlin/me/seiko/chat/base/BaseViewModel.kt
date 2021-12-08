@@ -5,6 +5,8 @@ import me.seiko.util.Logger
 
 abstract class BaseViewModel : ViewModel() {
   override fun onCleared() {
-    Logger.d { "${this::class.simpleName} onCleared" }
+    Logger.d(tag = "BaseViewModel") {
+      "${this::class.simpleName}@${this.hashCode().toString(16)} onCleared"
+    }
   }
 }

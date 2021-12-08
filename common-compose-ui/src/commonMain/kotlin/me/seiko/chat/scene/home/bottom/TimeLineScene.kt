@@ -45,22 +45,25 @@ fun TimelineScene() {
   val scope = rememberCoroutineScope()
 
   LazyColumn(
+    state = if (pageData.itemCount > 0) viewModel.listState else viewModel.listStateZero,
     modifier = Modifier.fillMaxSize(),
     horizontalAlignment = Alignment.CenterHorizontally,
   ) {
-    item {
-      Banner(
-        list = banner,
-        coroutineScope = scope,
-        loopDuration = 2000,
-        modifier = Modifier.height(200.dp)
-      ) { item, _ ->
-        NetworkImage(
-          data = item.imagePath,
-          contentDescription = null,
-          contentScale = ContentScale.Crop,
-          modifier = Modifier.fillMaxWidth()
-        )
+    if (pageData.itemCount > 0) {
+      item {
+        Banner(
+          list = banner,
+          coroutineScope = scope,
+          loopDuration = 2000,
+          modifier = Modifier.height(200.dp)
+        ) { item, _ ->
+          NetworkImage(
+            data = item.imagePath,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxWidth()
+          )
+        }
       }
     }
 

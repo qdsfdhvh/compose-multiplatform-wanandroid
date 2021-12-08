@@ -1,5 +1,6 @@
 package me.seiko.chat.scene.home.bottom
 
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
@@ -26,6 +27,10 @@ class TimeLineViewModel(service: WanAndroidService) : BaseViewModel() {
   val pager = Pager(PagingConfig(pageSize = PAGE_SIZE)) {
     TimeLineDataSource(service, PAGE_SIZE)
   }.flow.cachedIn(viewModelScope)
+
+  // why two listState? @see: https://juejin.cn/post/7033918453807480846
+  val listState by lazy { LazyListState() }
+  val listStateZero by lazy { LazyListState() }
 
   companion object {
     private const val PAGE_SIZE = 10
