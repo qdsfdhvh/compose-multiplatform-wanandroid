@@ -4,6 +4,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
   kotlin("multiplatform")
   id("org.jetbrains.compose") version Versions.composeJb
+  id("org.openjfx.javafxplugin") version Versions.javaFx
 }
 
 group = Package.group
@@ -15,6 +16,11 @@ kotlin {
       kotlinOptions.jvmTarget = Versions.Java.jvmTarget
     }
     withJava()
+    // @see https://openjfx.io/openjfx-docs/#gradle
+    javafx {
+      version = "15"
+      modules = listOf("javafx.controls", "javafx.swing", "javafx.web")
+    }
   }
   sourceSets {
     val jvmMain by getting {

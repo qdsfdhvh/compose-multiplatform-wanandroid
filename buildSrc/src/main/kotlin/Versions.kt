@@ -28,4 +28,6 @@ object Versions {
   const val coil = "2.0.0-alpha05"
   const val napier = "2.0.0"
   const val ktor = "1.6.5"
+
+  const val javaFx = "0.0.10"
 }
