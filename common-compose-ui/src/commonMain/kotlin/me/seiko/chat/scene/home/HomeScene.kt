@@ -28,13 +28,13 @@ import me.seiko.chat.model.HomeMenus
 import me.seiko.chat.model.ui.UiUser
 import me.seiko.compose.component.BackHandler
 import me.seiko.compose.component.NetworkImage
-import me.seiko.compose.component.Pager
-import me.seiko.compose.component.rememberPagerState
 import me.seiko.compose.component.statusBarsPadding
 import me.seiko.compose.material.CustomBottomNavigation
 import me.seiko.compose.material.CustomBottomNavigationItem
 import me.seiko.compose.material.CustomListItem
 import me.seiko.compose.material.CustomTopAppBar
+import me.seiko.compose.pager.HorizontalPager
+import me.seiko.compose.pager.rememberPagerState
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.navigation2.compose.SceneContent
 
@@ -46,7 +46,7 @@ fun HomeScene() {
   val viewState by viewModel.state.collectAsState()
 
   val scope = rememberCoroutineScope()
-  val pagerState = rememberPagerState(viewState.menus.size)
+  val pagerState = rememberPagerState()
   val scaffoldState = rememberScaffoldState()
 
   if (scaffoldState.drawerState.isOpen) {
@@ -66,7 +66,7 @@ fun HomeScene() {
         selectIndex = pagerState.currentPage,
         onItemClick = { index ->
           scope.launch {
-            pagerState.currentPage = index
+            pagerState.scrollToPage(index)
           }
         }
       )
@@ -75,10 +75,11 @@ fun HomeScene() {
       HomeDrawer(user = viewState.user)
     },
   ) {
-    Pager(
+    HorizontalPager(
+      count = viewState.menus.size,
       state = pagerState,
-    ) {
-      navController.SceneContent(viewState.menus[page].route)
+    ) { index ->
+      navController.SceneContent(viewState.menus[index].route)
     }
   }
 }
