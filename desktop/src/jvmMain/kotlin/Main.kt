@@ -1,12 +1,11 @@
-import androidx.compose.ui.window.application
-import me.seiko.chat.App
 import me.seiko.chat.di.initKoin
-import me.seiko.jetpack.lifecycle.PreComposeWindow
+import me.seiko.chat.runDesktop
+import me.seiko.util.Logger
 
-fun main() = application {
+fun main() {
+  Logger.init()
+
   initKoin()
 
-  PreComposeWindow(onCloseRequest = ::exitApplication) {
-    App()
-  }
+  runDesktop()
 }
