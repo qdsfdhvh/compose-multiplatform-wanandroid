@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.FrameWindowScope
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import me.seiko.jetpack.LocalBackDispatcherOwner
+import me.seiko.jetpack.LocalComposeWindow
 import me.seiko.jetpack.LocalLifecycleOwner
 import me.seiko.jetpack.LocalViewModelStoreOwner
 import me.seiko.jetpack.dispatcher.BackDispatcher
@@ -36,7 +38,7 @@ fun PreComposeWindow(
 }
 
 @Composable
-private fun ProvideDesktopCompositionLocals(
+private fun FrameWindowScope.ProvideDesktopCompositionLocals(
   content: @Composable () -> Unit,
 ) {
   val holder = remember {
@@ -46,6 +48,7 @@ private fun ProvideDesktopCompositionLocals(
     LocalLifecycleOwner provides holder,
     LocalViewModelStoreOwner provides holder,
     LocalBackDispatcherOwner provides holder,
+    LocalComposeWindow provides window
   ) {
     content.invoke()
   }

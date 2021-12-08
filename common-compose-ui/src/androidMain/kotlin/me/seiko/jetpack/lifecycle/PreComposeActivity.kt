@@ -8,6 +8,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.ViewTreeLifecycleOwner
 import androidx.savedstate.ViewTreeSavedStateRegistryOwner
+import me.seiko.jetpack.LocalActivity
 import me.seiko.jetpack.LocalBackDispatcherOwner
 import me.seiko.jetpack.LocalLifecycleOwner
 import me.seiko.jetpack.LocalViewModelStoreOwner
@@ -101,6 +102,7 @@ private fun PreComposeActivity.ProvideAndroidCompositionLocals(
     LocalLifecycleOwner provides this,
     LocalViewModelStoreOwner provides this,
     LocalBackDispatcherOwner provides this,
+    LocalActivity provides this,
   ) {
     content.invoke()
   }
