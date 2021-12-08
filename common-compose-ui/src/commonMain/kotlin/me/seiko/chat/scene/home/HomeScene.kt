@@ -32,7 +32,6 @@ import me.seiko.compose.component.statusBarsPadding
 import me.seiko.compose.material.CustomBottomNavigation
 import me.seiko.compose.material.CustomBottomNavigationItem
 import me.seiko.compose.material.CustomListItem
-import me.seiko.compose.material.CustomTopAppBar
 import me.seiko.compose.pager.HorizontalPager
 import me.seiko.compose.pager.rememberPagerState
 import me.seiko.jetpack.LocalNavController
@@ -57,9 +56,6 @@ fun HomeScene() {
 
   Scaffold(
     scaffoldState = scaffoldState,
-    topBar = {
-      HomeTopBar()
-    },
     bottomBar = {
       HomeBottomBar(
         items = viewState.menus,
@@ -82,13 +78,6 @@ fun HomeScene() {
       navController.SceneContent(viewState.menus[index].route)
     }
   }
-}
-
-@Composable
-fun HomeTopBar() {
-  CustomTopAppBar(
-    title = { Text("Home") },
-  )
 }
 
 @Composable

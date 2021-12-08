@@ -32,6 +32,8 @@ class TimeLineViewModel(service: WanAndroidService) : BaseViewModel() {
   val listState by lazy { LazyListState() }
   val listStateZero by lazy { LazyListState() }
 
+  var statusBarOffset = 0f
+
   companion object {
     private const val PAGE_SIZE = 10
   }
