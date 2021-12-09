@@ -86,9 +86,7 @@ fun HomeBottomBar(
   selectIndex: Int,
   onItemClick: (Int) -> Unit
 ) {
-  CustomBottomNavigation(
-    backgroundColor = MaterialTheme.colors.surface,
-  ) {
+  CustomBottomNavigation {
     items.forEachIndexed { index, item ->
       CustomBottomNavigationItem(
         selected = selectIndex == index,

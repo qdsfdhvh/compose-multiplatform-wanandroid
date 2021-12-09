@@ -20,6 +20,7 @@ val lightColors = lightColors(
   primary = Color(0XFF1C68F3),
   primaryVariant = Color(0XFF1C68F3),
   secondary = Color(0XFF1C68F3),
+  surface = Color(0xFFf5f5f5),
 )
 
 val darkColors = darkColors(

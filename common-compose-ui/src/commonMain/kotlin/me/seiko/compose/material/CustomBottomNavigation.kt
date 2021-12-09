@@ -10,7 +10,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
-import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +20,7 @@ import me.seiko.compose.component.navigationBarsPadding
 fun CustomBottomNavigation(
   modifier: Modifier = Modifier,
   isDivider: Boolean = true,
-  backgroundColor: Color = MaterialTheme.colors.primarySurface,
+  backgroundColor: Color = MaterialTheme.colors.background,
   contentColor: Color = contentColorFor(backgroundColor),
   content: @Composable RowScope.() -> Unit
 ) {
