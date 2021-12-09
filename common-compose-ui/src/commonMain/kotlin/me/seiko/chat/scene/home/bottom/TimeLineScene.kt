@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +31,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
-import kotlinx.coroutines.CoroutineScope
 import me.seiko.chat.di.extension.getViewModel
 import me.seiko.chat.model.ui.UiBanner
 import me.seiko.chat.model.ui.UiTimeLine
@@ -56,8 +54,6 @@ fun TimelineScene() {
   val viewModel: TimeLineViewModel = getViewModel()
   val banner = viewModel.banner.collectAsState()
   val pageData = viewModel.pager.collectAsLazyPagingItems()
-
-  val scope = rememberCoroutineScope()
 
   val statusBarsHeight = statusBarsHeightDp
   val bannerHeightPx = with(LocalDensity.current) { 200.dp.toPx() }
@@ -87,7 +83,7 @@ fun TimelineScene() {
     ) {
       if (pageData.itemCount > 0) {
         item {
-          TimeLineBanner(banner.value, scope)
+          TimeLineBanner(banner.value)
         }
       }
 
@@ -120,14 +116,10 @@ fun TimelineScene() {
 }
 
 @Composable
-fun TimeLineBanner(
-  banner: List<UiBanner>,
-  scope: CoroutineScope,
-) {
+fun TimeLineBanner(banner: List<UiBanner>) {
   Banner(
     list = banner,
-    coroutineScope = scope,
-    loopDuration = 2000,
+    loopDuration = 2500,
     modifier = Modifier.height(200.dp)
   ) { item, _ ->
     NetworkImage(
