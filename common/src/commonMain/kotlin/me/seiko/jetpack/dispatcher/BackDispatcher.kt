@@ -11,11 +11,11 @@ class BackDispatcher {
     return false
   }
 
-  internal fun register(handler: BackHandler) {
+  fun register(handler: BackHandler) {
     handlers.add(0, handler)
   }
 
-  internal fun unregister(handler: BackHandler) {
+  fun unregister(handler: BackHandler) {
     handlers.remove(handler)
   }
 }
