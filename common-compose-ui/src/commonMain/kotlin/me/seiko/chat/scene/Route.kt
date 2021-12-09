@@ -6,8 +6,8 @@ import me.seiko.chat.HTTP_REGEX
 import me.seiko.chat.dialog.CustomDialog
 import me.seiko.chat.scene.detail.DetailScene
 import me.seiko.chat.scene.home.HomeScene
+import me.seiko.chat.scene.home.bottom.KnowledgeScene
 import me.seiko.chat.scene.home.bottom.MeScene
-import me.seiko.chat.scene.home.bottom.MentionScene
 import me.seiko.chat.scene.home.bottom.SearchScene
 import me.seiko.chat.scene.home.bottom.TimelineScene
 import me.seiko.chat.scene.user.UserScene
@@ -24,7 +24,7 @@ import me.seiko.jetpack.navigation2.compose.scene
 object Routes {
   const val Home = "home"
   const val TimeLine = "timeline"
-  const val Mention = "mention"
+  const val Knowledge = "Knowledge"
   const val Search = "search"
   const val Me = "me"
 
@@ -47,7 +47,7 @@ fun Route(navController: NavController = rememberNavController()) {
     NavHost(navController, initialRoute = Routes.Home) {
       scene(Routes.Home) { HomeScene() }
       scene(Routes.TimeLine) { TimelineScene() }
-      scene(Routes.Mention) { MentionScene() }
+      scene(Routes.Knowledge) { KnowledgeScene() }
       scene(Routes.Search) { SearchScene() }
       scene(Routes.Me) { MeScene() }
       scene(Routes.Detail) { DetailScene(it.query("id", 0)) }

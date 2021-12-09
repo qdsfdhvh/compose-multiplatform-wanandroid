@@ -20,10 +20,10 @@ enum class HomeMenus(
     title = MR.strings.scene_title_timeline,
     route = Routes.TimeLine,
   ),
-  Mention(
+  Knowledge(
     icon = Icons.Outlined.Sms,
-    title = MR.strings.scene_title_mention,
-    route = Routes.Mention,
+    title = MR.strings.scene_title_knowledge,
+    route = Routes.Knowledge,
   ),
   Search(
     icon = Icons.Outlined.Search,

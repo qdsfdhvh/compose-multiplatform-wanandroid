@@ -13,14 +13,14 @@ import me.seiko.chat.scene.Routes
 import me.seiko.jetpack.LocalNavController
 
 @Composable
-fun MentionScene() {
+fun KnowledgeScene() {
   val navController = LocalNavController.current
 
-  val viewModel: MentionViewModel = getViewModel()
+  val viewModel: KnowledgeViewModel = getViewModel()
 
   Box(Modifier.fillMaxSize(), Alignment.Center) {
     Column {
-      Text("MentionScene ${viewModel.id}")
+      Text("KnowledgeScene ${viewModel.id}")
       Button(onClick = { navController.navigate(Routes.Detail(viewModel.id + 1)) }) {
         Text("go to detail")
       }
