@@ -27,7 +27,7 @@ data class Article(
   var publishTime: Long = 0L,
   var realSuperChapterId: Int = -1,
   var selfVisible: Int = -1,
-  var shareDate: Long = 0L,
+  var shareDate: Long? = 0L,
   var shareUser: String = "",
   var superChapterId: Int = -1,
   var superChapterName: String = "",

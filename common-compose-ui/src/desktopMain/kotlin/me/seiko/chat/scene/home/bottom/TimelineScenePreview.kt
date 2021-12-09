@@ -3,6 +3,7 @@ package me.seiko.chat.scene.home.bottom
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
 import me.seiko.chat.model.ui.UiTimeLine
+import me.seiko.chat.scene.home.bottom.timeline.TimeLineItem
 
 @Preview
 @Composable

@@ -1,4 +1,4 @@
-package me.seiko.chat.scene.home.bottom
+package me.seiko.chat.scene.home.bottom.timeline
 
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.paging.Pager

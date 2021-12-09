@@ -6,10 +6,12 @@ import me.seiko.chat.HTTP_REGEX
 import me.seiko.chat.dialog.CustomDialog
 import me.seiko.chat.scene.detail.DetailScene
 import me.seiko.chat.scene.home.HomeScene
-import me.seiko.chat.scene.home.bottom.KnowledgeScene
 import me.seiko.chat.scene.home.bottom.MeScene
 import me.seiko.chat.scene.home.bottom.SearchScene
-import me.seiko.chat.scene.home.bottom.TimelineScene
+import me.seiko.chat.scene.home.bottom.knowledge.KnowledgeScene
+import me.seiko.chat.scene.home.bottom.knowledge.tab.CourseScene
+import me.seiko.chat.scene.home.bottom.knowledge.tab.NaviScene
+import me.seiko.chat.scene.home.bottom.timeline.TimelineScene
 import me.seiko.chat.scene.user.UserScene
 import me.seiko.chat.scene.web.WebScene
 import me.seiko.jetpack.LocalNavController
@@ -27,6 +29,8 @@ object Routes {
   const val Knowledge = "Knowledge"
   const val Search = "search"
   const val Me = "me"
+  const val Course = "course"
+  const val Navi = "navi"
 
   object Detail : IRoute("detail") {
     operator fun invoke(id: Int) = "$route?id=$id"
@@ -52,6 +56,8 @@ fun Route(navController: NavController = rememberNavController()) {
       scene(Routes.Me) { MeScene() }
       scene(Routes.Detail) { DetailScene(it.query("id", 0)) }
       scene(Routes.User) { UserScene(it.param("id", 0), it.param("name", "")) }
+      scene(Routes.Course) { CourseScene() }
+      scene(Routes.Navi) { NaviScene() }
 
       dialog(Routes.Dialog) { CustomDialog() }
 

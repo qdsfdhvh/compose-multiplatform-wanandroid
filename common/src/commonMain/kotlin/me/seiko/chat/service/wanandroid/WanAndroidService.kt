@@ -4,6 +4,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import me.seiko.chat.service.wanandroid.model.Article
 import me.seiko.chat.service.wanandroid.model.Banner
+import me.seiko.chat.service.wanandroid.model.Course
+import me.seiko.chat.service.wanandroid.model.NaviItem
 
 class WanAndroidService(
   private val httpClient: HttpClient
@@ -13,12 +15,32 @@ class WanAndroidService(
     const val BASE_URL = "https://www.wanandroid.com/"
   }
 
+  /**
+   * 首页文章列表
+   */
   suspend fun getIndexList(page: Int, pageSize: Int): List<Article> {
     return httpClient.getPageData("${BASE_URL}article/list/$page/json?page_size=$pageSize")
   }
 
+  /**
+   * 首页Banner
+   */
   suspend fun getHomeBanner(): List<Banner> {
     return httpClient.getResponse("${BASE_URL}banner/json")
+  }
+
+  /**
+   * 体系数据
+   */
+  suspend fun getCourseList(): List<Course> {
+    return httpClient.getResponse("${BASE_URL}tree/json")
+  }
+
+  /**
+   * 导航数据
+   */
+  suspend fun getNaviList(): List<NaviItem> {
+    return httpClient.getResponse("${BASE_URL}navi/json")
   }
 }
 

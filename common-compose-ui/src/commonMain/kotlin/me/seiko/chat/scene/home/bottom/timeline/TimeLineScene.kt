@@ -1,4 +1,4 @@
-package me.seiko.chat.scene.home.bottom
+package me.seiko.chat.scene.home.bottom.timeline
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,10 +45,13 @@ import me.seiko.compose.simple.TextSubTitle1
 import me.seiko.jetpack.LocalNavController
 import me.seiko.jetpack.paging.collectAsLazyPagingItems
 import me.seiko.jetpack.paging.items
+import me.seiko.kmp.systemuicontroller.SetSystemBarsColor
 import me.seiko.util.Logger
 
 @Composable
 fun TimelineScene() {
+  SetSystemBarsColor(darkIcons = false)
+
   val navController = LocalNavController.current
 
   val viewModel: TimeLineViewModel = getViewModel()
@@ -117,6 +120,7 @@ fun TimelineScene() {
 
 @Composable
 fun TimeLineBanner(banner: List<UiBanner>) {
+  if (banner.isEmpty()) return
   Banner(
     list = banner,
     loopDuration = 2500,
