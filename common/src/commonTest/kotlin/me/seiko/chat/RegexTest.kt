@@ -12,6 +12,8 @@ class ExampleUnitTest {
   @Test
   fun http_regex() {
     assertTrue { HTTP_REGEX.matches("https://juejin.im/user/5a3ba9375188252bca050ade") }
+    assertTrue { HTTP_REGEX.matches("https://www.betaqr.com/") }
+    assertTrue { HTTP_REGEX.matches("https://fir.im/") }
     assertTrue { HTTP_REGEX.matches("https://developer.android.google.cn/") }
     assertTrue { HTTP_REGEX.matches("https://developer.android.google.cn/reference/kotlin/android/") }
     assertTrue { HTTP_REGEX.matches("https://developer.android.google.cn/reference/kotlin/android/widget/TextView?hl=en") }
