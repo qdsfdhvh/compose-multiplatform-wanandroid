@@ -5,8 +5,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 
 @Composable
-actual fun WebView(url: String, modifier: Modifier) {
-  val webView = remember(url) { DesktopCustomWebViewFactory.create(url) }
+actual fun WebView(
+  url: String,
+  onLoading: (Boolean) -> Unit,
+  onProgress: (Float) -> Unit,
+  modifier: Modifier
+) {
+  val webView = remember(url) {
+    DesktopCustomWebViewFactory.create(url).apply {
+      this.onLoading = onLoading
+      this.onProgress = onProgress
+    }
+  }
   WebView(webView, modifier)
 }
 

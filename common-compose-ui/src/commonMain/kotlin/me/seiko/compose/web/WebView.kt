@@ -1,12 +1,8 @@
 package me.seiko.compose.web
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import me.seiko.compose.component.BackHandler
 import me.seiko.jetpack.LocalLifecycleOwner
@@ -16,6 +12,8 @@ import me.seiko.jetpack.lifecycle.LifecycleObserver
 @Composable
 expect fun WebView(
   url: String,
+  onLoading: (Boolean) -> Unit = {},
+  onProgress: (Float) -> Unit = {},
   modifier: Modifier = Modifier
 )
 
@@ -28,13 +26,7 @@ fun WebView(
     "WebView requires a lifecycleOwner to be provided via LocalLifecycleOwner"
   }
 
-  val isRefreshing = remember { mutableStateOf(false) }
-  val progress = remember { mutableStateOf(0f) }
-
   DisposableEffect(webView) {
-    webView.onLoading = { isRefreshing.value = it }
-    webView.onProgress = { progress.value = it }
-
     val lifecycleObserver = object : LifecycleObserver {
       override fun onStateChanged(state: Lifecycle.State) {
         when (state) {
@@ -55,13 +47,7 @@ fun WebView(
     }
   }
 
-  Column(modifier) {
-    if (isRefreshing.value) {
-      LinearProgressIndicator(
-        progress = progress.value,
-        modifier = Modifier.fillMaxWidth(),
-      )
-    }
+  Box(modifier) {
     webView.Content()
   }
 
