@@ -1,9 +1,12 @@
+import org.gradle.api.internal.catalog.DelegatingProjectDependency
 import org.jetbrains.compose.compose
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 plugins {
   kotlin("multiplatform")
   id("org.jetbrains.compose") version Versions.composeJb
   id("com.android.library")
+  id("com.google.devtools.ksp") version Versions.ksp
 }
 
 group = Package.group
@@ -26,6 +29,9 @@ kotlin {
         api(compose.material)
         api(compose.materialIconsExtended)
         api(Libs.Androidx.paging)
+
+        implementation(projects.compiler.routeProcessor)
+        ksp(projects.compiler.routeProcessor)
       }
     }
     val androidMain by getting {
@@ -53,4 +59,8 @@ android {
     sourceCompatibility = Versions.Java.lang
     targetCompatibility = Versions.Java.lang
   }
+}
+
+fun KotlinDependencyHandler.ksp(dependencyNotation: DelegatingProjectDependency) {
+  configurations["ksp"].dependencies.add(dependencyNotation)
 }

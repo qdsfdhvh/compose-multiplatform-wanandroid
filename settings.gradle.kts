@@ -12,5 +12,6 @@ include(":android")
 include(":desktop")
 include(":common")
 include(":common-compose-ui")
+include(":compiler:route-processor")
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

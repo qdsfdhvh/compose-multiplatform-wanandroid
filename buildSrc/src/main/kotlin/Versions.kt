@@ -12,6 +12,7 @@ object Versions {
     const val jvmTarget = "11"
   }
 
+  const val ksp = "${Kotlin.lang}-1.0.0"
   const val agp = "7.0.3"
   const val spotless = "5.17.0"
   const val ktLint = "0.42.1"

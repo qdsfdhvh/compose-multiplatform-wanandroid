@@ -23,26 +23,6 @@ import me.seiko.jetpack.navigation2.compose.dialog
 import me.seiko.jetpack.navigation2.compose.rememberNavController
 import me.seiko.jetpack.navigation2.compose.scene
 
-object Routes {
-  const val Home = "home"
-  const val TimeLine = "timeline"
-  const val Knowledge = "Knowledge"
-  const val Search = "search"
-  const val Me = "me"
-  const val Course = "course"
-  const val Navi = "navi"
-
-  object Detail : IRoute("detail") {
-    operator fun invoke(id: Int) = "$route?id=$id"
-  }
-
-  object User : IRoute("user/{id}/{name}") {
-    operator fun invoke(id: Int, name: String) = "user/$id/$name"
-  }
-
-  const val Dialog = "dialog"
-}
-
 @Composable
 fun Route(navController: NavController = rememberNavController()) {
   CompositionLocalProvider(
@@ -72,4 +52,6 @@ private inline fun NavGraphBuilder.scene(
   noinline content: @Composable (NavBackStackEntry) -> Unit
 ) = scene(route.route, content)
 
-abstract class IRoute(val route: String)
+interface IRoute {
+  val route: String
+}
