@@ -8,8 +8,8 @@ group = Package.group
 version = Package.versionName
 
 dependencies {
-  implementation(project(":common"))
-  implementation(project(":common-compose-ui"))
+  implementation(projects.common)
+  implementation(projects.commonComposeUi)
 }
 
 android {
