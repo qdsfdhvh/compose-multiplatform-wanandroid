@@ -13,7 +13,7 @@ fun NetworkImage(
   contentDescription: String?,
   modifier: Modifier = Modifier,
   alignment: Alignment = Alignment.Center,
-  contentScale: ContentScale = ContentScale.Fit,
+  contentScale: ContentScale = ContentScale.Crop,
 ) {
   Image(
     painter = rememberNetworkImagePainter(data),
