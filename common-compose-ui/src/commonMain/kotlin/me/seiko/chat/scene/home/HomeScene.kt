@@ -2,6 +2,7 @@ package me.seiko.chat.scene.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
@@ -70,10 +71,11 @@ fun HomeScene() {
     drawerContent = {
       HomeDrawer(user = viewState.user)
     },
-  ) {
+  ) { padding ->
     HorizontalPager(
       count = viewState.menus.size,
       state = pagerState,
+      modifier = Modifier.padding(padding)
     ) { index ->
       navController.SceneContent(viewState.menus[index].route)
     }
