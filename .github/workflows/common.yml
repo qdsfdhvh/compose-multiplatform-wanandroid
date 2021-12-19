@@ -34,9 +34,9 @@ jobs:
         run: ./gradlew :common:test
 
       - name: Upload test results
-          if: always()
-          uses: actions/upload-artifact@v2
-          with:
-            name: unit-test-result
-            path: "**/build/test-results/**/*.xml"
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-test-result
+          path: "**/build/test-results/**/*.xml"
 
