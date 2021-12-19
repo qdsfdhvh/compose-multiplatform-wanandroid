@@ -8,8 +8,8 @@ object Versions {
   }
 
   object Java {
-    val lang = JavaVersion.VERSION_17
-    const val jvmTarget = "17"
+    val lang = JavaVersion.VERSION_11
+    const val jvmTarget = "11"
   }
 
   const val agp = "7.0.3"
