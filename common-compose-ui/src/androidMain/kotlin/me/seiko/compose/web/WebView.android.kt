@@ -21,19 +21,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import me.seiko.util.Logger
 
 @Composable
-actual fun WebView(
-  url: String,
-  onLoading: (Boolean) -> Unit,
-  onProgress: (Float) -> Unit,
-  modifier: Modifier,
-) {
+actual fun WebView(url: String, modifier: Modifier) {
   val context = LocalContext.current
-  val webView = remember(url) {
-    AndroidCustomWebView(context, url).apply {
-      this.onLoading = onLoading
-      this.onProgress = onProgress
-    }
-  }
+  val webView = remember(url) { AndroidCustomWebView(context, url) }
   WebView(webView, modifier)
 }
 

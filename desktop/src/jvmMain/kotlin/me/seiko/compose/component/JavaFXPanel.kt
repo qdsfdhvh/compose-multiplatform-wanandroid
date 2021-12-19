@@ -56,8 +56,7 @@ fun JavaFXPanel(
 
   DisposableEffect(Unit) {
     container.add(panel)
-    root.add(container, 0)
-    // TODO over click
+    root.add(container)
 
     onCreate.invoke()
 
