@@ -4,4 +4,12 @@
     <string name="scene_title_knowledge">Knowledge</string>
     <string name="scene_title_search">Search</string>
     <string name="scene_title_me">Me</string>
+
+    <string name="scene_me_menu_coin">我的积分</string>
+    <string name="scene_me_menu_share">我的分享</string>
+    <string name="scene_me_menu_favourite">我的收藏</string>
+    <string name="scene_me_menu_bookmark">我的书签</string>
+    <string name="scene_me_menu_history">阅读历史</string>
+    <string name="scene_me_menu_about">关于作者</string>
+    <string name="scene_me_menu_setting">系统设置</string>
 </resource>
