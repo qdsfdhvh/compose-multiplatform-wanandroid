@@ -2,7 +2,7 @@ package me.seiko.chat.scene
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import me.seiko.chat.HTTP_REGEX
+import me.seiko.chat.HttpRegex
 import me.seiko.chat.dialog.CustomDialog
 import me.seiko.chat.scene.detail.DetailScene
 import me.seiko.chat.scene.home.HomeScene
@@ -61,7 +61,7 @@ fun Route(navController: NavController = rememberNavController()) {
 
       dialog(Routes.Dialog) { CustomDialog() }
 
-      scene(HTTP_REGEX) { WebScene(it.route) }
+      scene(HttpRegex) { WebScene(it.route) }
     }
   }
 }
