@@ -1,4 +1,4 @@
-import me.seiko.chat.HTTP_REGEX
+import me.seiko.chat.HttpRegex
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -8,16 +8,16 @@ import kotlin.test.assertTrue
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExampleUnitTest {
+class RegexTest {
   @Test
   fun http_regex() {
-    assertTrue { HTTP_REGEX.matches("https://juejin.im/user/5a3ba9375188252bca050ade") }
-    assertTrue { HTTP_REGEX.matches("https://www.betaqr.com/") }
-    assertTrue { HTTP_REGEX.matches("https://fir.im/") }
-    assertTrue { HTTP_REGEX.matches("https://developer.android.google.cn/") }
-    assertTrue { HTTP_REGEX.matches("https://developer.android.google.cn/reference/kotlin/android/") }
-    assertTrue { HTTP_REGEX.matches("https://developer.android.google.cn/reference/kotlin/android/widget/TextView?hl=en") }
-    assertFalse { HTTP_REGEX.matches("www.aaa###.com") }
-    assertFalse { HTTP_REGEX.matches("127.0.0.1") }
+    assertTrue { HttpRegex.matches("https://juejin.im/user/5a3ba9375188252bca050ade") }
+    assertTrue { HttpRegex.matches("https://www.betaqr.com/") }
+    assertTrue { HttpRegex.matches("https://fir.im/") }
+    assertTrue { HttpRegex.matches("https://developer.android.google.cn/") }
+    assertTrue { HttpRegex.matches("https://developer.android.google.cn/reference/kotlin/android/") }
+    assertTrue { HttpRegex.matches("https://developer.android.google.cn/reference/kotlin/android/widget/TextView?hl=en") }
+    assertFalse { HttpRegex.matches("www.aaa###.com") }
+    assertFalse { HttpRegex.matches("127.0.0.1") }
   }
 }
