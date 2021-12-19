@@ -6,6 +6,7 @@ import me.seiko.jetpack.lifecycle.Lifecycle
 import me.seiko.jetpack.lifecycle.LifecycleObserver
 import me.seiko.jetpack.lifecycle.LifecycleOwner
 import me.seiko.jetpack.viewmodel.ViewModelStore
+import me.seiko.util.Logger
 
 open class NavController : LifecycleObserver, BackHandler {
 
@@ -54,6 +55,11 @@ open class NavController : LifecycleObserver, BackHandler {
 
   fun navigate(route: String, builder: (NavOptionsBuilder.() -> Unit)? = null) {
     val node = findNavDestination(route)
+    if (node == null) {
+      Logger.w(tag = "NavController") { "navigate target $route not found" }
+      return
+    }
+
     val entry = node.createEntry(viewModel!!, route)
 
     if (builder == null) {
@@ -116,9 +122,7 @@ open class NavController : LifecycleObserver, BackHandler {
     return pop()
   }
 
-  fun findNavDestination(route: String): NavDestination {
-    return checkNotNull(graph.findNode(route)) {
-      "navigate target $route not found"
-    }
+  fun findNavDestination(route: String): NavDestination? {
+    return graph.findNode(route)
   }
 }

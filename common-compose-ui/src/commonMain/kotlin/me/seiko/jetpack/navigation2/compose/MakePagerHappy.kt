@@ -23,14 +23,14 @@ fun NavController.SceneContent(route: String) {
   }
 
   val entry = remember(entryId) {
-    val navDestination = findNavDestination(route)
+    val navDestination = findNavDestination(route) ?: return@remember null
     navDestination.createEntry(
       id = entryId,
       viewModel = NavControllerViewModel.create(owner.viewModelStore)
     )
   }
 
-  if (entry.scene is ComposeScene) {
+  if (entry != null && entry.scene is ComposeScene) {
     DisposableEffect(Unit) {
       entry.onActive()
       onDispose { entry.onInActive() }
